@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BugVentureEngine.Models;
+using BugVentureEngine.Factories;
 
 /// <summary>
 /// ViewModel旨在管理视图和模型之间如何通信。 
@@ -15,6 +16,7 @@ namespace BugVentureEngine.ViewModels
 {
 	public class GameSession
 	{
+		public World CurrentWorld { get; set; }
 		public Player CurrentPlayer { get; set; }
 		public Location CurrentLocation { get; set; }
 
@@ -28,13 +30,10 @@ namespace BugVentureEngine.ViewModels
 			CurrentPlayer.ExperiencePoints = 0;
 			CurrentPlayer.Level = 1;
 
-			CurrentLocation = new Location();
-			CurrentLocation.Name = "Home";
-			CurrentLocation.XCoordinate = 0;
-			CurrentLocation.YCoordinate = -1;
-			CurrentLocation.Description = "This is your house";
-			// /assemblyName;component/path/to/image.png; 
-			CurrentLocation.ImageName = "/BugVentureEngine;component/Images/Locations/Home.png";
+			WorldFactory factory = new WorldFactory();
+			CurrentWorld = factory.CreateWorld();
+
+			CurrentLocation = CurrentWorld.LocationAt(-2, -1);
 		}
 	}
 }
