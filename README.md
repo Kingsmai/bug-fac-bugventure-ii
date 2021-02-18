@@ -1,6 +1,8 @@
 # BugVenture 2
 
-> 非原创：学习资源https://scottlilly.com/build-a-cwpf-rpg/
+> 核心架构非原创：学习对象：https://scottlilly.com/build-a-cwpf-rpg/
+>
+> Scott Lilly（原创）教学源码：[ScottLilly/SOSCSRPG: Scott's Open Source C# RPG (github.com)](https://github.com/ScottLilly/SOSCSRPG)
 
 【游戏开发】纯UI游戏
 
@@ -53,4 +55,13 @@
 | 任务详情 | 是否完成 |
 | -------- | -------- |
 |          |          |
+
+## 项目结构简介
+
+### BugVentureEngine项目
+
+1. Models文件夹 - 存放数据模型（角色、怪物、地点……）
+   1. Player.cs 角色、玩家
+2. ViewModels - 用于View和Model之间的媒介（项目逻辑）
+   1. GameSession.cs
 
