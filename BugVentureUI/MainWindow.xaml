@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BugVentureUI"
         mc:Ignorable="d"
+        FontSize="11pt"
         Title="Bug Venture II" Height="768" Width="1024">
     <Grid>
         <Grid.RowDefinitions>
@@ -12,7 +13,6 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="225"/>
         </Grid.RowDefinitions>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="*"/>
@@ -51,7 +51,33 @@
             <Button Grid.Row="6" Grid.Column="1" Content="Add XP" Click="ButtonBase_OnClick"/>
         </Grid>
 
-        <Label Grid.Row="1" Grid.Column="1" Content="Game Data" Background="Beige"/>
+        <!-- 位置信息和怪物信息 -->
+        <!--<Label Grid.Row="1" Grid.Column="1" Content="Game Data" Background="Beige"/>-->
+        <Grid Grid.Row="1" Grid.Column="1" Background="Beige">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <!-- 位置信息 -->
+            <Border Grid.Row="0" Grid.Column="1" BorderBrush="Gainsboro" BorderThickness="1">
+                <Grid Margin="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="{Binding CurrentLocation.Name}"/>
+                    <Image Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="125" Width="125"
+                           Source="{Binding CurrentLocation.ImageName}"/>
+                    <TextBlock Grid.Row="2" HorizontalAlignment="Center" Text="{Binding CurrentLocation.Description}"/>
+                </Grid>
+            </Border>
+        </Grid>
+
         <Label Grid.Row="2" Grid.Column="0" Content="Inventory/Quests" Background="BurlyWood"/>
         <Label Grid.Row="2" Grid.Column="1" Content="Combat/Movement Controls" Background="Lavender"/>
     </Grid>

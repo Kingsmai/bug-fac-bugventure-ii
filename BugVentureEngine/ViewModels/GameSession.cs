@@ -16,6 +16,7 @@ namespace BugVentureEngine.ViewModels
 	public class GameSession
 	{
 		public Player CurrentPlayer { get; set; }
+		public Location CurrentLocation { get; set; }
 
 		public GameSession()
 		{
@@ -26,6 +27,14 @@ namespace BugVentureEngine.ViewModels
 			CurrentPlayer.Gold = 1000000;
 			CurrentPlayer.ExperiencePoints = 0;
 			CurrentPlayer.Level = 1;
+
+			CurrentLocation = new Location();
+			CurrentLocation.Name = "Home";
+			CurrentLocation.XCoordinate = 0;
+			CurrentLocation.YCoordinate = -1;
+			CurrentLocation.Description = "This is your house";
+			// /assemblyName;component/path/to/image.png; 
+			CurrentLocation.ImageName = "/BugVentureEngine;component/Images/Locations/Home.png";
 		}
 	}
 }
