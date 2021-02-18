@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BugVentureEngine.ViewModels;
 
 namespace BugVentureUI
 {
@@ -20,9 +21,19 @@ namespace BugVentureUI
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		private GameSession _gameSession;
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			_gameSession = new GameSession();
+
+			DataContext = _gameSession; // 让xaml知道它在跟谁工作
+		}
+
+		private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+		{
+			_gameSession.CurrentPlayer.ExperiencePoints += 10;
 		}
 	}
 }

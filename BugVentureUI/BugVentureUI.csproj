@@ -94,5 +94,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BugVentureEngine\BugVentureEngine.csproj">
+      <Project>{23062c19-48af-4a60-b582-0d0c8279d9af}</Project>
+      <Name>BugVentureEngine</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
