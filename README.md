@@ -31,7 +31,9 @@
   - **角色**可以买、卖**道具**
 - 用户可以保存、加载游戏
 
-![游戏地图规划](.\README.pngs\WPFGameWorld.png)
+**游戏地图规划**
+
+![游戏地图规划](./README.pngs/WPFGameWorld.png)
 
 ## 面向对象类
 
