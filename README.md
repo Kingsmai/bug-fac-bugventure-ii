@@ -11,6 +11,10 @@
 - 集成环境：Visual Studio Community 2019
 - C#（逻辑）、WPF（页面）
 
+## 目前界面进度
+
+<img src="./README.pngs/Screenshots/20210218-2.png" alt="Lastest Screenshot" style="zoom:75%;" />
+
 ## 游戏设计
 
 - 用户可以创建**角色**
