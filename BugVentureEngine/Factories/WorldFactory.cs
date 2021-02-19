@@ -11,13 +11,13 @@ namespace BugVentureEngine.Factories
 	/// 用来“生产”整个世界
 	/// internal关键字是用来给同一个项目之间使用，这个类只有GameSession类会使用到
 	/// </summary>
-	internal class WorldFactory
+	internal static class WorldFactory
 	{
 		/// <summary>
 		/// 用来创建整个世界
 		/// </summary>
 		/// <returns>返回拥有全部游戏地点的世界</returns>
-		internal World CreateWorld()
+		internal static World CreateWorld()
 		{
 			World newWorld = new World();
 			// 图片路径：/assemblyName;component/path/to/image.png; 
