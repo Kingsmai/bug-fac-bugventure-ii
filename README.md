@@ -13,7 +13,7 @@
 
 ## 目前界面进度
 
-<img src="./README.pngs/Screenshots/20210218-2.png" alt="Lastest Screenshot" style="zoom:75%;" />
+<img src="./README.pngs/Screenshots/20210219-2.png" alt="Lastest Screenshot" style="zoom:75%;" />
 
 ## 游戏设计
 
@@ -46,7 +46,7 @@
 | 属性值                   | 数据类型 |
 | ------------------------ | -------- |
 | Name 名称                | string   |
-| Class 职业               | Class    |
+| Class 职业               | string   |
 | Hit Points 生命值        | int      |
 | Experience Points 经验值 | int      |
 | Level 等级               | int      |
@@ -70,6 +70,14 @@
 
 1. Models文件夹 - 存放数据模型（角色、怪物、地点……）
    1. Player.cs 角色、玩家
+   2. Location.cs 游戏位置（小地图）
+   3. World.cs 游戏世界（大地图）
 2. ViewModels - 用于View和Model之间的媒介（项目逻辑）
    1. GameSession.cs
+3. Factories - 用于创建游戏物品的“工厂”
+   1. WorldFactory.cs 世界工厂 - 生成由小地图合并起来的大地图
+
+### BugVentureUI项目
+
+1. MainWindow.xaml 游戏的主窗口
 
