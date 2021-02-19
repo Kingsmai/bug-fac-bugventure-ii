@@ -69,15 +69,22 @@
 ### BugVentureEngine项目
 
 1. Models文件夹 - 存放数据模型（角色、怪物、地点……）
-   1. Player.cs 角色、玩家
+   1. Player.cs : BaseNotificationClass 角色、玩家
    2. Location.cs 游戏位置（小地图）
    3. World.cs 游戏世界（大地图）
+   4. GameItem.cs 游戏道具
+   5. Weapon.cs : GameItem 武器
 2. ViewModels - 用于View和Model之间的媒介（项目逻辑）
-   1. GameSession.cs
+   1. GameSession.cs : BaseNotificationClass
 3. Factories - 用于创建游戏物品的“工厂”
    1. WorldFactory.cs 世界工厂 - 生成由小地图合并起来的大地图
+   2. ItemFactory.cs 武器工厂
+4. BaseNotificationClass : INotifyPropertyChanged 发送属性更改通知
 
 ### BugVentureUI项目
 
 1. MainWindow.xaml 游戏的主窗口
 
+## 补充说明
+
+**克隆物品Clone：**如果我们的武器可以进行附魔，那么每把武器（或道具）就需要有独立的属性。这时候就需要new新的道具实例，才能让每个道具拥有独立属性
