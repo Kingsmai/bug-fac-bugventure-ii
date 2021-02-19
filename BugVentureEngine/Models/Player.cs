@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BugVentureEngine.Models
 {
-    public class Player : INotifyPropertyChanged
+    public class Player : BaseNotificationClass
     {
         private string _name;
         private string _characterClass;
@@ -22,7 +22,7 @@ namespace BugVentureEngine.Models
             set
             {
                 _name = value;
-                OnPropertyChanged("Name");
+                OnPropertyChanged(nameof(Name));
             }
         }
 
@@ -32,7 +32,7 @@ namespace BugVentureEngine.Models
             set
             {
                 _characterClass = value;
-                OnPropertyChanged("CharacterClass");
+                OnPropertyChanged(nameof(CharacterClass));
             }
         }
 
@@ -42,7 +42,7 @@ namespace BugVentureEngine.Models
             set
             {
                 _hitPoints = value;
-                OnPropertyChanged("HitPoints");
+                OnPropertyChanged(nameof(HitPoints));
             }
         }
 
@@ -52,7 +52,7 @@ namespace BugVentureEngine.Models
             set
             {
                 _experiencePoints = value;
-                OnPropertyChanged("ExperiencePoints");
+                OnPropertyChanged(nameof(ExperiencePoints));
             }
         }
 
@@ -62,7 +62,7 @@ namespace BugVentureEngine.Models
             set
             {
                 _level = value;
-                OnPropertyChanged("Level");
+                OnPropertyChanged(nameof(Level));
             }
         }
 
@@ -72,16 +72,8 @@ namespace BugVentureEngine.Models
             set
             {
                 _gold = value;
-                OnPropertyChanged("Gold");
+                OnPropertyChanged(nameof(Gold));
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        
-        protected virtual void OnPropertyChanged(string propertyName)
-		{
-            // 如果有人在听我们的PropertyChanged事件处理程序，我们需要向他们发送一条消息，通知该属性已更改 
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
     }
 }

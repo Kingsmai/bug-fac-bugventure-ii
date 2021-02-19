@@ -15,7 +15,7 @@ using BugVentureEngine.Factories;
 /// </summary>
 namespace BugVentureEngine.ViewModels
 {
-	public class GameSession : INotifyPropertyChanged
+	public class GameSession : BaseNotificationClass
 	{
 		private Location _currentLocation;
 
@@ -27,11 +27,11 @@ namespace BugVentureEngine.ViewModels
 			set
 			{
 				_currentLocation = value;
-				OnPropertyChanged("CurrentLocation");
-				OnPropertyChanged("HasLocationToNorth");
-				OnPropertyChanged("HasLocationToEast");
-				OnPropertyChanged("HasLocationToWest");
-				OnPropertyChanged("HasLocationToSouth");
+				OnPropertyChanged(nameof(CurrentLocation));
+				OnPropertyChanged(nameof(HasLocationToNorth));
+				OnPropertyChanged(nameof(HasLocationToSouth));
+				OnPropertyChanged(nameof(HasLocationToEast));
+				OnPropertyChanged(nameof(HasLocationToWest));
 			}
 		}
 		public bool HasLocationToNorth { get { return CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null; } }
@@ -73,13 +73,6 @@ namespace BugVentureEngine.ViewModels
 		public void MoveWest()
 		{
 			CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate);
-		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		public void OnPropertyChanged(string propertyName)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
 }
