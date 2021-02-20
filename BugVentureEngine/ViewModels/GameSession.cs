@@ -21,17 +21,21 @@ namespace BugVentureEngine.ViewModels
 
 		public World CurrentWorld { get; set; }
 		public Player CurrentPlayer { get; set; }
+
 		public Location CurrentLocation
 		{
 			get { return _currentLocation; }
 			set
 			{
 				_currentLocation = value;
+
 				OnPropertyChanged(nameof(CurrentLocation));
 				OnPropertyChanged(nameof(HasLocationToNorth));
 				OnPropertyChanged(nameof(HasLocationToSouth));
 				OnPropertyChanged(nameof(HasLocationToEast));
 				OnPropertyChanged(nameof(HasLocationToWest));
+
+				GivePlayerQuestsAtLocation();
 			}
 		}
 		public bool HasLocationToNorth { get { return CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null; } }
@@ -85,6 +89,17 @@ namespace BugVentureEngine.ViewModels
 			if (HasLocationToWest)
 			{
 				CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate);
+			}
+		}
+
+		private void GivePlayerQuestsAtLocation()
+		{
+			foreach (Quest quest in CurrentLocation.QuestsAvailableHere)
+			{
+				if (!CurrentPlayer.Quests.Any(q => q.PlayerQuest.ID == quest.ID))
+				{
+					CurrentPlayer.Quests.Add(new QuestStatus(quest));
+				}
 			}
 		}
 	}

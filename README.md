@@ -13,7 +13,7 @@
 
 ## 目前界面进度
 
-<img src="./README.pngs/Screenshots/20210220-1.png" alt="Lastest Screenshot" style="zoom:75%;" />
+<img src="./README.pngs/Screenshots/20210220-2.png" alt="Lastest Screenshot" style="zoom:75%;" />
 
 ## 游戏设计
 
@@ -76,6 +76,7 @@
    5. Weapon.cs : GameItem 武器
    6. ItemQuantity.cs 记录物品数量（比如提交任务所需的物品）
    7. Quest.cs 任务
+   8. QuestStatus.cs 任务状态（是否完成）
 2. ViewModels - 用于View和Model之间的媒介（项目逻辑）
    1. GameSession.cs : BaseNotificationClass
 3. Factories - 用于创建游戏物品的“工厂”

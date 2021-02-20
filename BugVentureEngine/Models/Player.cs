@@ -80,9 +80,12 @@ namespace BugVentureEngine.Models
         // ObservableCollection在变动时会自动通知UI
         public ObservableCollection<GameItem> Inventory { get; set; }
 
+        public ObservableCollection<QuestStatus> Quests { get; set; }
+
         public Player()
 		{
             Inventory = new ObservableCollection<GameItem>();
+            Quests = new ObservableCollection<QuestStatus>();
 		}
     }
 }
