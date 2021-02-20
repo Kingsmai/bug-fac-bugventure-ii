@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace BugVentureEngine.Models
 {
@@ -75,5 +76,13 @@ namespace BugVentureEngine.Models
                 OnPropertyChanged(nameof(Gold));
             }
         }
+
+        // ObservableCollection在变动时会自动通知UI
+        public ObservableCollection<GameItem> Inventory { get; set; }
+
+        public Player()
+		{
+            Inventory = new ObservableCollection<GameItem>();
+		}
     }
 }

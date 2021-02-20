@@ -13,7 +13,7 @@
 
 ## 目前界面进度
 
-<img src="./README.pngs/Screenshots/20210219-2.png" alt="Lastest Screenshot" style="zoom:75%;" />
+<img src="./README.pngs/Screenshots/20210220-1.png" alt="Lastest Screenshot" style="zoom:75%;" />
 
 ## 游戏设计
 
@@ -85,6 +85,6 @@
 
 1. MainWindow.xaml 游戏的主窗口
 
-## 补充说明
+## 补充说明（编程笔记）
 
 **克隆物品Clone：**如果我们的武器可以进行附魔，那么每把武器（或道具）就需要有独立的属性。这时候就需要new新的道具实例，才能让每个道具拥有独立属性

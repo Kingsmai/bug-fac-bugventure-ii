@@ -95,7 +95,27 @@
             </Border>
         </Grid>
 
-        <Label Grid.Row="2" Grid.Column="0" Content="Inventory/Quests" Background="BurlyWood"/>
+        <!-- 物品栏、任务栏 -->
+        <!--<Label Grid.Row="2" Grid.Column="0" Content="Inventory/Quests" Background="BurlyWood"/>-->
+        <Grid Grid.Row="2" Grid.Column="0" Background="BurlyWood">
+            <TabControl>
+                <!-- 物品栏 -->
+                <TabItem Header="Inventory">
+                    <DataGrid ItemsSource="{Binding CurrentPlayer.Inventory}"
+                              AutoGenerateColumns="False"
+                              HeadersVisibility="Column">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Description"
+                                                Binding="{Binding Name}"
+                                                Width="*"/>
+                            <DataGridTextColumn Header="Price"
+                                                Binding="{Binding Price}"
+                                                Width="Auto"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+            </TabControl>
+        </Grid>
 
         <!-- 战斗、移动 -->
         <!--<Label Grid.Row="2" Grid.Column="1" Content="Combat/Movement Controls" Background="Lavender"/>-->
