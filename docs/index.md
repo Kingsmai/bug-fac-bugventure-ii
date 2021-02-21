@@ -1,6 +1,41 @@
 # BugVentureEngine Documentation
 
-[TOC]
+## BugVentureEngine
+
+### BaseNotificationClass
+
+Extend: INotifyPropertyChanged
+
+当属性被更改时通知客户端
+
+#### 方法
+
+```C#
+protected virtual void OnPropertyChanged(string propertyName)
+{
+	PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+}
+```
+
+### RandomNumberGenerator
+
+#### 方法
+
+##### NumberBetween()
+
+获取两个数之间的随机值
+
+```c#
+public static int NumberBetween(int minimumValue, int maximumValue)
+```
+
+##### SimpleNumberBetween()
+
+简易版获取两个数之间的随机值（但是没那么随机）
+
+```c#
+public static int SimpleNumberBetween(int minimumValue, int maximumValue)
+```
 
 ## BugVentureEngine.Models
 
@@ -80,6 +115,8 @@ public Location LocationAt(int xCoordinates, int yCoordinates)
 
 游戏道具
 
+#### 属性
+
 | 属性值     | 用途/详情 | 数据类型 |
 | ---------- | --------- | -------- |
 | ItemTypeID | 唯一ID值  | int      |
@@ -110,6 +147,8 @@ Extend: [GameItem](#GameItem)
 
 武器
 
+#### 属性
+
 | 属性值        | 用途/详情  | 数据类型 |
 | ------------- | ---------- | -------- |
 | MinimumDamage | 最低攻击力 | int      |
@@ -135,6 +174,8 @@ public new Weapon Clone()
 
 记录物品数量（比如提交任务所需的物品）
 
+#### 属性
+
 | 属性值   | 用途/详情                        | 数据类型 |
 | -------- | -------------------------------- | -------- |
 | ItemID   | 必须和GameItem关联，物品的唯一ID | int      |
@@ -149,6 +190,8 @@ public ItemQuantity(int itemID, int quantity)
 ### Quest
 
 任务
+
+#### 属性
 
 | 属性值                 | 用途/详情        | 数据类型             |
 | ---------------------- | ---------------- | -------------------- |
@@ -171,6 +214,8 @@ public Quest(int id, string name, string description, List<ItemQuantity> itemsTo
 
 任务状态（是否完成）
 
+#### 属性
+
 | 属性值      | 用途/详情      | 数据类型 |
 | ----------- | -------------- | -------- |
 | PlayerQuest | 玩家拥有的任务 | Quest    |
@@ -180,6 +225,30 @@ public Quest(int id, string name, string description, List<ItemQuantity> itemsTo
 
 ```c#
 public QuestStatus(Quest quest)
+```
+
+### Monster
+
+Extend: [BaseNotificationClass](#BaseNotificationClass)
+
+怪物
+
+#### 属性
+
+| 属性值                 | 用途/详情        | 数据类型                             |             |
+| ---------------------- | ---------------- | ------------------------------------ | ----------- |
+| Name                   | 名称             | string                               | private set |
+| ImageName              | 图片名           | string                               |             |
+| MaximumHitPoints       | 最大生命值       | int                                  | private set |
+| HitPoints              | 当前生命值       | int                                  | private set |
+| RewardExperiencePoints | 奖励经验值       | int                                  | private set |
+| RewardGold             | 奖励金币         | int                                  | private set |
+| Inventory              | 物品栏（掉落物） | ObservableCollection\<ItemQuantity\> |             |
+
+#### 构造方法
+
+```c#
+public Monster(string name, string imageName, int maximumHitPoints, int hitPoints, int rewardExperiencePoints, int rewardGold)
 ```
 
 ## BugVentureEngine.ViewModels
@@ -304,19 +373,24 @@ static QuestFactory()
 internal static Quest GetQuestByID(int id)
 ```
 
-## BaseNotificationClass
+### MonsterFactory
 
-Extend: INotifyPropertyChanged
+#### 方法
 
-当属性被更改时通知客户端
+##### GetMonster()
 
-### 方法
+通过怪物ID获取怪物
 
-```C#
-protected virtual void OnPropertyChanged(string propertyName)
-{
-	PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-}
+```c#
+public static Monster GetMonster(int monsterID)
+```
+
+##### AddLootItem()
+
+随机增加怪物掉落物
+
+```c#
+private static void AddLootItem(Monster monster, int itemID, int percentage)
 ```
 
 # 游戏中的元素列表
@@ -343,6 +417,10 @@ protected virtual void OnPropertyChanged(string propertyName)
 | Weapon   | 1002 | Rusty Sword  | 5    | 1          | 3          |
 | GameItem | 9001 | Snake fang   | 1    |            |            |
 | GameItem | 9002 | Snakeskin    | 2    |            |            |
+| GameItem | 9003 | Rat tail     | 1    |            |            |
+| GameItem | 9004 | Rat fur      | 2    |            |            |
+| GameItem | 9005 | Spider fang  | 1    |            |            |
+| GameItem | 9006 | Spider silk  | 2    |            |            |
 
 ## 任务
 
@@ -350,3 +428,10 @@ protected virtual void OnPropertyChanged(string propertyName)
 | ---- | --------------------- | ------------------------------------------- | ---------------- | ---------- | -------- | --------------- |
 | 1    | Clear the herb garden | Defeat the snakes in the Herbalist's garden | Snake fang * 5   | 25         | 10       | Rusty Sword * 1 |
 
+## 怪物
+
+| ID   | 名称         | 生命值 | 奖励经验值 | 奖励金币 | 掉落物                               |
+| ---- | ------------ | ------ | ---------- | -------- | ------------------------------------ |
+| 1    | Snake        | 4      | 5          | 1        | Snake fang 25%<br />Snakeskin 75%    |
+| 2    | Rat          | 5      | 5          | 1        | Rat tail 25%<br />Rat fur 75%        |
+| 3    | Giant Spider | 10     | 10         | 3        | Spider fang 25%<br />Spider silk 75% |
