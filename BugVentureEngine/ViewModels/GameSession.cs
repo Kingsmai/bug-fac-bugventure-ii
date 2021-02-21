@@ -18,6 +18,7 @@ namespace BugVentureEngine.ViewModels
 	public class GameSession : BaseNotificationClass
 	{
 		private Location _currentLocation;
+		private Monster _currentMonster;
 
 		public World CurrentWorld { get; set; }
 		public Player CurrentPlayer { get; set; }
@@ -36,12 +37,26 @@ namespace BugVentureEngine.ViewModels
 				OnPropertyChanged(nameof(HasLocationToWest));
 
 				GivePlayerQuestsAtLocation();
+				GetMonsterAtLocation();
+			}
+		}
+
+		public Monster CurrentMonster
+		{
+			get { return _currentMonster; }
+			set
+			{
+				_currentMonster = value;
+
+				OnPropertyChanged(nameof(CurrentMonster));
+				OnPropertyChanged(nameof(HasMonster));
 			}
 		}
 		public bool HasLocationToNorth { get { return CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null; } }
 		public bool HasLocationToEast { get { return CurrentWorld.LocationAt(CurrentLocation.XCoordinate + 1, CurrentLocation.YCoordinate) != null; } }
 		public bool HasLocationToSouth { get { return CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate - 1) != null; } }
 		public bool HasLocationToWest { get { return CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate) != null; } }
+		public bool HasMonster => CurrentMonster != null; // expression body
 
 		public GameSession()
 		{
@@ -101,6 +116,11 @@ namespace BugVentureEngine.ViewModels
 					CurrentPlayer.Quests.Add(new QuestStatus(quest));
 				}
 			}
+		}
+
+		private void GetMonsterAtLocation()
+		{
+			CurrentMonster = CurrentLocation.GetMonster();
 		}
 	}
 }
