@@ -353,6 +353,10 @@ private void GivePlayerQuestsAtLocation()
 CurrentMonster = CurrentLocation.GetMonster();
 ```
 
+##### RaiseMessage(string message)
+
+提升信息到UI（如果UI绑定OnMessageRaised事件）
+
 ## BugVentureEngine.Factories
 
 ### WorldFactory
@@ -443,6 +447,28 @@ public static Monster GetMonster(int monsterID)
 
 ```c#
 private static void AddLootItem(Monster monster, int itemID, int percentage)
+```
+
+## BugVentureEngine.EventArgs
+
+### GameMessageEventArgs
+
+Extends: System.EventArgs
+
+The ViewModel is going to communicate with the View by “raising events”. This will let the View know that something happened. But, the View also needs to know what text to display on the screen.
+
+To send additional information with an event, you use an “event argument”. We’re going to create a custom event argument that will hold the text to display in the View.
+
+#### 属性
+
+| 属性值  | 用途/详情                        | 数据类型 |             |
+| ------- | -------------------------------- | -------- | ----------- |
+| Message | hold the message text to display | string   | private set |
+
+#### 构造方法
+
+```c#
+public GameMessageEventArgs(string message)
 ```
 
 # 游戏中的元素列表

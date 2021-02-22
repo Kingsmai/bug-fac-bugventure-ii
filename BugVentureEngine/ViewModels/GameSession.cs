@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using BugVentureEngine.Models;
 using BugVentureEngine.Factories;
+using BugVentureEngine.EventArgs;
 
 /// <summary>
 /// ViewModel旨在管理视图和模型之间如何通信。 
@@ -17,6 +18,8 @@ namespace BugVentureEngine.ViewModels
 {
 	public class GameSession : BaseNotificationClass
 	{
+		public event EventHandler<GameMessageEventArgs> OnMessageRaised; // View 订阅这个事件
+
 		private Location _currentLocation;
 		private Monster _currentMonster;
 
@@ -50,6 +53,12 @@ namespace BugVentureEngine.ViewModels
 
 				OnPropertyChanged(nameof(CurrentMonster));
 				OnPropertyChanged(nameof(HasMonster));
+
+				if(CurrentMonster != null)
+				{
+					RaiseMessage("");
+					RaiseMessage($"You see a {CurrentMonster.Name} here");
+				}
 			}
 		}
 		public bool HasLocationToNorth { get { return CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null; } }
@@ -121,6 +130,12 @@ namespace BugVentureEngine.ViewModels
 		private void GetMonsterAtLocation()
 		{
 			CurrentMonster = CurrentLocation.GetMonster();
+		}
+
+		private void RaiseMessage(string message)
+		{
+			// 如果有任何东西订阅OnMessageRaised，调用
+			OnMessageRaised?.Invoke(this, new GameMessageEventArgs(message));
 		}
 	}
 }

@@ -69,6 +69,19 @@
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
 
+            <!-- 游戏信息 -->
+            <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" BorderBrush="Gainsboro" BorderThickness="1">
+                <RichTextBox x:Name="GameMessages"
+                             Background="Beige"
+                             VerticalScrollBarVisibility="Auto">
+                    <RichTextBox.Resources>
+                        <Style TargetType="{x:Type Paragraph}">
+                            <Setter Property="Margin" Value="0"/>
+                        </Style>
+                    </RichTextBox.Resources>
+                </RichTextBox>
+            </Border>
+            
             <!-- 位置信息 -->
             <Border Grid.Row="0" Grid.Column="1" BorderBrush="Gainsboro" BorderThickness="1">
                 <Grid Margin="3">
@@ -113,7 +126,7 @@
                                 Visibility="{Binding HasMonster, Converter={StaticResource BooleanToVisibility}}"
                                 HorizontalAlignment="Center"
                                 Orientation="Horizontal">
-                        <TextBlock>Current Hit Points:</TextBlock>
+                        <TextBlock>Current Hit Points: </TextBlock>
                         <TextBlock Text="{Binding CurrentMonster.HitPoints}" />
                     </StackPanel>
                 </Grid>
