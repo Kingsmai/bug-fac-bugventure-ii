@@ -30,10 +30,14 @@ namespace BugVentureEngine.Factories
 		public static GameItem CreateGameItem(int itemTypeID)
 		{
 			GameItem standardItem = _standardGameItems.FirstOrDefault(item => item.ItemTypeID == itemTypeID);
-			
+
 			if (standardItem != null)
 			{
 				// 如果我们需要对武器进行附魔，那就必须要创建新的实例（让角色拥有多把武器等），每个实例有独立的属性
+				if (standardItem is Weapon)
+				{
+					return (standardItem as Weapon).Clone(); // 因为Weapon有自己的属性
+				}
 				return standardItem.Clone();
 			}
 

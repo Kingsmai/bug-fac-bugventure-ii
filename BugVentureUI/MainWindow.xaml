@@ -81,7 +81,7 @@
                     </RichTextBox.Resources>
                 </RichTextBox>
             </Border>
-            
+
             <!-- 位置信息 -->
             <Border Grid.Row="0" Grid.Column="1" BorderBrush="Gainsboro" BorderThickness="1">
                 <Grid Margin="3">
@@ -126,7 +126,7 @@
                                 Visibility="{Binding HasMonster, Converter={StaticResource BooleanToVisibility}}"
                                 HorizontalAlignment="Center"
                                 Orientation="Horizontal">
-                        <TextBlock>Current Hit Points: </TextBlock>
+                        <TextBlock>Current Hit Points:</TextBlock>
                         <TextBlock Text="{Binding CurrentMonster.HitPoints}" />
                     </StackPanel>
                 </Grid>
@@ -179,6 +179,33 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="255" />
             </Grid.ColumnDefinitions>
+
+            <!-- 战斗控制 -->
+            <Grid Grid.Row="0" Grid.Column="0"
+                  Visibility="{Binding HasMonster, Converter={StaticResource BooleanToVisibility}}"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="50"/>
+                </Grid.ColumnDefinitions>
+
+                <ComboBox Grid.Row="0" Grid.Column="0"
+                          ItemsSource="{Binding CurrentPlayer.Weapons}"
+                          SelectedItem="{Binding CurrentWeapon}"
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="ID"/>
+
+                <Button Grid.Row="0" Grid.Column="2"
+                        Content="Use"
+                        Click="OnClick_AttackMonster"/>
+            </Grid>
 
             <!-- 移动按钮 -->
             <Grid Grid.Row="0" Grid.Column="1">

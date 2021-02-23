@@ -54,13 +54,16 @@ namespace BugVentureEngine.ViewModels
 				OnPropertyChanged(nameof(CurrentMonster));
 				OnPropertyChanged(nameof(HasMonster));
 
-				if(CurrentMonster != null)
+				if (CurrentMonster != null)
 				{
 					RaiseMessage("");
 					RaiseMessage($"You see a {CurrentMonster.Name} here");
 				}
 			}
 		}
+
+		public Weapon CurrentWeapon { get; set; }
+
 		public bool HasLocationToNorth { get { return CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null; } }
 		public bool HasLocationToEast { get { return CurrentWorld.LocationAt(CurrentLocation.XCoordinate + 1, CurrentLocation.YCoordinate) != null; } }
 		public bool HasLocationToSouth { get { return CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate - 1) != null; } }
@@ -78,6 +81,12 @@ namespace BugVentureEngine.ViewModels
 				ExperiencePoints = 0,
 				Level = 1
 			};
+
+			if (!CurrentPlayer.Weapons.Any())
+			{
+				// 如果角色没有任何装备，则给他一个木棒
+				CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(1001));
+			}
 
 			CurrentWorld = WorldFactory.CreateWorld();
 
@@ -130,6 +139,75 @@ namespace BugVentureEngine.ViewModels
 		private void GetMonsterAtLocation()
 		{
 			CurrentMonster = CurrentLocation.GetMonster();
+		}
+
+		public void AttackCurrentMonster()
+		{
+			if (CurrentWeapon == null)
+			{
+				RaiseMessage("You must select a weapon, to attack");
+				return;
+			}
+
+			// 计算对怪物照成的伤害
+			int damageToMonster = RandomNumberGenerator.NumberBetween(CurrentWeapon.MinimumDamage, CurrentWeapon.MaximumDamage);
+
+			if (damageToMonster == 0)
+			{
+				RaiseMessage($"You missed the {CurrentMonster.Name}.");
+			}
+			else
+			{
+				CurrentMonster.HitPoints -= damageToMonster;
+				RaiseMessage($"You hit the {CurrentMonster.Name} for {damageToMonster} points");
+			}
+
+			// 如果怪物被杀死
+			if (CurrentMonster.HitPoints <= 0)
+			{
+				RaiseMessage("");
+				RaiseMessage($"You defeated the {CurrentMonster.Name}!");
+
+				CurrentPlayer.ExperiencePoints += CurrentMonster.RewardExperiencePoints;
+				RaiseMessage($"You receive {CurrentMonster.RewardExperiencePoints} experience points.");
+
+				CurrentPlayer.Gold += CurrentMonster.RewardGold;
+				RaiseMessage($"You receive {CurrentMonster.RewardGold} gold.");
+
+				foreach (ItemQuantity itemQuantity in CurrentMonster.Inventory)
+				{
+					GameItem item = ItemFactory.CreateGameItem(itemQuantity.ItemID);
+					CurrentPlayer.AddItemToInventory(item);
+					RaiseMessage($"You receive {itemQuantity.Quantity} {item.Name}.");
+				}
+
+				// 继续刷新新的敌人
+				GetMonsterAtLocation();
+			}
+			else
+			{
+				// 如果怪物还活着，轮到怪物的回合
+				int damageToPlayer = RandomNumberGenerator.NumberBetween(CurrentMonster.MinimumDamage, CurrentMonster.MaximumDamage);
+
+				if (damageToPlayer == 0)
+				{
+					RaiseMessage("The monster attacks, but miss you.");
+				}
+				else
+				{
+					CurrentPlayer.HitPoints -= damageToPlayer;
+					RaiseMessage($"The {CurrentMonster.Name} hit you for {damageToPlayer} points.");
+				}
+
+				if (CurrentPlayer.HitPoints <= 0)
+				{
+					RaiseMessage("");
+					RaiseMessage($"The {CurrentMonster.Name} killed you.");
+
+					CurrentLocation = CurrentWorld.LocationAt(0, 1); // 回家
+					CurrentPlayer.HitPoints = CurrentPlayer.Level * 10; // 完全恢复生命值
+				}
+			}
 		}
 
 		private void RaiseMessage(string message)

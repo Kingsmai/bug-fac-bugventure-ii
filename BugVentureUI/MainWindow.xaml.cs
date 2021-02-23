@@ -54,6 +54,11 @@ namespace BugVentureUI
 			_gameSession.MoveSouth();
 		}
 
+		private void OnClick_AttackMonster(object sender, RoutedEventArgs e)
+		{
+			_gameSession.AttackCurrentMonster();
+		}
+
 		//将信息显示在信息栏里
 		private void OnGameMessageRaised(object sender, GameMessageEventArgs e)
 		{

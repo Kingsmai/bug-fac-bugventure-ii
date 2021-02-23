@@ -49,16 +49,17 @@ Extend: [BaseNotificationClass](#BaseNotificationClass)
 
 #### 属性
 
-| 属性值            | 用途/详情                  | 数据类型                            |
-| ----------------- | -------------------------- | ----------------------------------- |
-| Name              | 名称                       | string                              |
-| Class             | 职业（每个职业有不同加成） | string                              |
-| Hit Points        | 生命值                     | int                                 |
-| Experience Points | 经验值                     | int                                 |
-| Level             | 等级                       | int                                 |
-| Gold              | 金币                       | int                                 |
-| Inventory         | 物品栏                     | ObservableCollection\<GameItem\>    |
-| Quests            | 任务栏                     | ObservableCollection\<QuestStatus\> |
+| 属性值            | 用途/详情                            | 数据类型                            |
+| ----------------- | ------------------------------------ | ----------------------------------- |
+| Name              | 名称                                 | string                              |
+| Class             | 职业（每个职业有不同加成）           | string                              |
+| Hit Points        | 生命值                               | int                                 |
+| Experience Points | 经验值                               | int                                 |
+| Level             | 等级                                 | int                                 |
+| Gold              | 金币                                 | int                                 |
+| Inventory         | 物品栏                               | ObservableCollection\<GameItem\>    |
+| Weapons           | 武器列表：自动找到物品栏里的所有武器 | List\<GameItem\>                    |
+| Quests            | 任务栏                               | ObservableCollection\<QuestStatus\> |
 
 > ObservableCollection在属性变动时会自动通知UI
 
@@ -67,6 +68,12 @@ Extend: [BaseNotificationClass](#BaseNotificationClass)
 ```C#
 public Player()
 ```
+
+#### 方法
+
+##### AddItemToInventory(GameItem item)
+
+将物品添加到任务栏里（这个方法会触发Inventory.Add，然后会通知武器列表更新UI）
 
 ### Location
 
@@ -259,7 +266,9 @@ Extend: [BaseNotificationClass](#BaseNotificationClass)
 | Name                   | 名称             | string                               | private set |
 | ImageName              | 图片名           | string                               |             |
 | MaximumHitPoints       | 最大生命值       | int                                  | private set |
-| HitPoints              | 当前生命值       | int                                  | private set |
+| HitPoints              | 当前生命值       | int                                  |             |
+| MinimumDamage          | 最小攻击力       | int                                  |             |
+| MaximumDam             | 最大攻击力       | int                                  |             |
 | RewardExperiencePoints | 奖励经验值       | int                                  | private set |
 | RewardGold             | 奖励金币         | int                                  | private set |
 | Inventory              | 物品栏（掉落物） | ObservableCollection\<ItemQuantity\> |             |
@@ -267,7 +276,9 @@ Extend: [BaseNotificationClass](#BaseNotificationClass)
 #### 构造方法
 
 ```c#
-public Monster(string name, string imageName, int maximumHitPoints, int hitPoints, int rewardExperiencePoints, int rewardGold)
+public Monster(string name, string imageName, int maximumHitPoints, int hitPoints,
+               int minimumDamage, int maximumDamage
+               int rewardExperiencePoints, int rewardGold)
 ```
 
 ### MonsterEncounter
@@ -305,6 +316,7 @@ Extend: [BaseNotificationClass](#BaseNotificationClass)
 | CurrentPlayer      | 当前角色                                                     | Player   |
 | CurrentLocation    | 当前地点<br />修改它的值时，会自动给玩家当前地点所存在的任务<br />会自动刷新当前面对的怪物 | Location |
 | CurrentMonster     | 当前面对的怪物                                               | Monster  |
+| CurrentWeapon      | 当前装备武器                                                 | Weapon   |
 | HasLocationToNorth | 【只读】检查北边是否有路                                     | bool     |
 | HasLocationToEast  | 【只读】检查东边是否有路                                     | bool     |
 | HasLocationToSouth | 【只读】检查南边是否有路                                     | bool     |
@@ -313,7 +325,7 @@ Extend: [BaseNotificationClass](#BaseNotificationClass)
 
 #### 构造方法
 
-创建新角色、通过WorldFactory创建新世界、将玩家放置在家中
+创建新角色、通过WorldFactory创建新世界、将玩家放置在家中，并给予玩家一把初始武器
 
 ```C#
 public GameSession()
@@ -352,6 +364,10 @@ private void GivePlayerQuestsAtLocation()
 ```C#
 CurrentMonster = CurrentLocation.GetMonster();
 ```
+
+##### AttackCurrentMonster()
+
+攻击当前面对的怪物
 
 ##### RaiseMessage(string message)
 
@@ -396,6 +412,8 @@ static ItemFactory()
 ##### CreateGameItem()
 
 会创建一个新的实例
+
+`2021/2/23`会根据物品类型返回不同的实例（GameItem, Weapon等）
 
 ```C#
 public static GameItem CreateGameItem(int itemTypeID)
