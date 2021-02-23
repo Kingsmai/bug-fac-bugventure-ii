@@ -10,13 +10,11 @@ namespace BugVentureEngine.Factories
 	public static class ItemFactory
 	{
 		// 保存世界里所有的道具，以便可以达到“找到这个道具，然后返回这个道具”的效果
-		private static List<GameItem> _standardGameItems;
+		private static readonly List<GameItem> _standardGameItems = new List<GameItem>();
 
 		// 任何人使用任何这个类的东西，以下函数将会被执行
 		static ItemFactory()
 		{
-			_standardGameItems = new List<GameItem>();
-
 			_standardGameItems.Add(new Weapon(1001, "Pointy Stick", 1, 1, 2));
 			_standardGameItems.Add(new Weapon(1002, "Rusty Sword", 5, 1, 3));
 			_standardGameItems.Add(new GameItem(9001, "Snake fang", 1));

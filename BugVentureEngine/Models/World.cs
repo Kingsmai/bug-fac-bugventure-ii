@@ -25,7 +25,8 @@ namespace BugVentureEngine.Models
 			loc.YCoordinate = yCoordinates;
 			loc.Name = name;
 			loc.Description = description;
-			loc.ImageName = imageName;
+			// 图片路径：/assemblyName;component/path/to/image.png; 
+			loc.ImageName = $"/BugVentureEngine;component/Images/Locations/{imageName}";
 
 			_locations.Add(loc);
 		}

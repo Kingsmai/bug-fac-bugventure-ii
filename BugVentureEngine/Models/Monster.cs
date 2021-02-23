@@ -37,7 +37,7 @@ namespace BugVentureEngine.Models
 			int rewardExperiencePoints, int rewardGold)
 		{
 			Name = name;
-			ImageName = string.Format("/BugVentureEngine;component/Images/Monsters/{0}", imageName);
+			ImageName = $"/BugVentureEngine;component/Images/Monsters/{imageName}";
 			MaximumHitPoints = maximumHitPoints;
 			HitPoints = hitPoints;
 			MinimumDamage = minimumDamage;
