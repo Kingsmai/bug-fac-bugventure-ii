@@ -75,6 +75,14 @@ public Player()
 
 将物品添加到任务栏里（这个方法会触发Inventory.Add，然后会通知武器列表更新UI）
 
+##### RemoveItemFromInventory(GameItem item)
+
+从列表里删除某样物品
+
+##### HasAllTheseItems(List\<ItemQuantity\> items)
+
+检查是否拥有列表里的所有物品，并且数量是否足够
+
 ### Location
 
 游戏位置（小地图）
@@ -90,6 +98,7 @@ public Player()
 | ImageName           | 图片路径<br />`/AssemblyName;component/path/to/image.extension` | string                   |
 | QuestsAvailableHere | 在这里会触发的任务                                           | List\<Quest\>            |
 | MonstersHere        | 在这里的怪物                                                 | List\<MonsterEncounter\> |
+| TraderHere          | 在这里的商人                                                 | Trader                   |
 
 #### 方法
 
@@ -298,6 +307,33 @@ public Monster(string name, string imageName, int maximumHitPoints, int hitPoint
 public MonsterEncounter(int monsterID, int chanceOfEncountering)
 ```
 
+### Trader
+
+Extend: [BaseNotificationClass](#BaseNotificationClass)
+
+#### 属性
+
+| 属性值    | 用途/详情 | 数据类型                         |
+| --------- | --------- | -------------------------------- |
+| Name      | 名称      | string                           |
+| Inventory | 物品栏    | ObservableCollection\<GameItem\> |
+
+#### 构造方法
+
+```c#
+public Trader(string name)
+```
+
+#### 方法
+
+##### AddItemToInventory(GameItem item)
+
+将物品加入到物品栏
+
+##### RemoveItemFromInventory(GameItem Item)
+
+将物品从物品栏中移除
+
 ## BugVentureEngine.ViewModels
 
 MVVM - 用于View和Model之间的媒介（项目逻辑）
@@ -316,12 +352,14 @@ Extend: [BaseNotificationClass](#BaseNotificationClass)
 | CurrentPlayer      | 当前角色                                                     | Player   |
 | CurrentLocation    | 当前地点<br />修改它的值时，会自动给玩家当前地点所存在的任务<br />会自动刷新当前面对的怪物 | Location |
 | CurrentMonster     | 当前面对的怪物                                               | Monster  |
+| CurrentTrader      | 当前地点所存在的商人                                         | Trader   |
 | CurrentWeapon      | 当前装备武器                                                 | Weapon   |
 | HasLocationToNorth | 【只读】检查北边是否有路                                     | bool     |
 | HasLocationToEast  | 【只读】检查东边是否有路                                     | bool     |
 | HasLocationToSouth | 【只读】检查南边是否有路                                     | bool     |
 | HasLocationToWest  | 【只读】检查西边是否有路                                     | bool     |
 | HasMonster         | 当当前位置有怪物时，为true                                   | bool     |
+| HasTrader          | 当当前位置有商人时，为true                                   | bool     |
 
 #### 构造方法
 
@@ -349,9 +387,13 @@ public GameSession()
 
 向西移动
 
+##### CompleteQuestsAtLocation()
+
+检查玩家是否完成任务，并奖励道具
+
 ##### GivePlayerQuestAtLocation()
 
-检查当前地点是否拥有任务，有的话交给玩家
+检查当前地点是否拥有任务，有的话交给玩家，并显示任务信息
 
 ```C#
 private void GivePlayerQuestsAtLocation()
@@ -425,9 +467,9 @@ public static GameItem CreateGameItem(int itemTypeID)
 
 #### 属性
 
-| 属性值  | 用途/详情                                                    | 数据类型      |
-| ------- | ------------------------------------------------------------ | ------------- |
-| _quests | 【私有、static】保存世界里所有的任务，以便可以达到“找到这个任务，然后返回这个任务”的效果 | List\<Quest\> |
+| 属性值  | 用途/详情                                                    | 数据类型      |                         |
+| ------- | ------------------------------------------------------------ | ------------- | ----------------------- |
+| _quests | 保存世界里所有的任务，以便可以达到“找到这个任务，然后返回这个任务”的效果 | List\<Quest\> | private static readonly |
 
 #### 构造方法
 
@@ -466,6 +508,26 @@ public static Monster GetMonster(int monsterID)
 ```c#
 private static void AddLootItem(Monster monster, int itemID, int percentage)
 ```
+
+### TraderFactory
+
+创建商人对象
+
+#### 属性
+
+| 属性值   | 用途/详情    | 数据类型       |                         |
+| -------- | ------------ | -------------- | ----------------------- |
+| _traders | 保存所有商人 | List\<Trader\> | private static readonly |
+
+#### 方法
+
+##### GetTraderByName(string name)
+
+通过名字获取商人对象
+
+##### AddTraderToList(Trader trader)
+
+将商人添加到商人列表里
 
 ## BugVentureEngine.EventArgs
 
@@ -531,3 +593,12 @@ public GameMessageEventArgs(string message)
 | 1    | Snake        | 4      | 5          | 1        | Snake fang 25%<br />Snakeskin 75%    | Herbalist's garden |
 | 2    | Rat          | 5      | 5          | 1        | Rat tail 25%<br />Rat fur 75%        | Farmer's Field     |
 | 3    | Giant Spider | 10     | 10         | 3        | Spider fang 25%<br />Spider silk 75% | Spider Forest      |
+
+## 商人
+
+| 名字               | 商品 | 出现地点        |
+| ------------------ | ---- | --------------- |
+| Susan              |      | Trading Shop    |
+| Farmer Ted         |      | Farmer's House  |
+| Pete the Herbalist |      | Herbalist's Hut |
+
