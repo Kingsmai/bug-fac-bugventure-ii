@@ -13,7 +13,7 @@
 
 ## 目前界面进度
 
-<img src="./README.pngs/Screenshots/20210224-3.png" alt="Lastest Screenshot" style="zoom:75%;" />
+<img src="./README.pngs/Screenshots/20210224-4.png" alt="Lastest Screenshot" style="zoom:75%;" />
 
 ## 游戏设计
 
