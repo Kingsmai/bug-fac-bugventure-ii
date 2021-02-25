@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
-using BugVentureEngine.Models;
+﻿using BugVentureEngine.EventArgs;
 using BugVentureEngine.Factories;
-using BugVentureEngine.EventArgs;
+using BugVentureEngine.Models;
+using System;
+using System.Linq;
 
 /// <summary>
 /// ViewModel旨在管理视图和模型之间如何通信。 
@@ -97,7 +93,8 @@ namespace BugVentureEngine.ViewModels
 			{
 				Name = "Xiaomai",
 				CharacterClass = "Fighter",
-				HitPoints = 10,
+				CurrentHitPoints = 10,
+				MaximumHitPoints = 10,
 				Gold = 1000000,
 				ExperiencePoints = 0,
 				Level = 1
@@ -241,12 +238,12 @@ namespace BugVentureEngine.ViewModels
 			}
 			else
 			{
-				CurrentMonster.HitPoints -= damageToMonster;
+				CurrentMonster.CurrentHitPoints -= damageToMonster;
 				RaiseMessage($"You hit the {CurrentMonster.Name} for {damageToMonster} points");
 			}
 
 			// 如果怪物被杀死
-			if (CurrentMonster.HitPoints <= 0)
+			if (CurrentMonster.CurrentHitPoints <= 0)
 			{
 				RaiseMessage("");
 				RaiseMessage($"You defeated the {CurrentMonster.Name}!");
@@ -254,14 +251,13 @@ namespace BugVentureEngine.ViewModels
 				CurrentPlayer.ExperiencePoints += CurrentMonster.RewardExperiencePoints;
 				RaiseMessage($"You receive {CurrentMonster.RewardExperiencePoints} experience points.");
 
-				CurrentPlayer.Gold += CurrentMonster.RewardGold;
-				RaiseMessage($"You receive {CurrentMonster.RewardGold} gold.");
+				CurrentPlayer.Gold += CurrentMonster.Gold;
+				RaiseMessage($"You receive {CurrentMonster.Gold} gold.");
 
-				foreach (ItemQuantity itemQuantity in CurrentMonster.Inventory)
+				foreach (GameItem gameItem in CurrentMonster.Inventory)
 				{
-					GameItem item = ItemFactory.CreateGameItem(itemQuantity.ItemID);
-					CurrentPlayer.AddItemToInventory(item);
-					RaiseMessage($"You receive {itemQuantity.Quantity} {item.Name}.");
+					CurrentPlayer.AddItemToInventory(gameItem);
+					RaiseMessage($"You receive one {gameItem.Name}.");
 				}
 
 				// 继续刷新新的敌人
@@ -278,17 +274,17 @@ namespace BugVentureEngine.ViewModels
 				}
 				else
 				{
-					CurrentPlayer.HitPoints -= damageToPlayer;
+					CurrentPlayer.CurrentHitPoints -= damageToPlayer;
 					RaiseMessage($"The {CurrentMonster.Name} hit you for {damageToPlayer} points.");
 				}
 
-				if (CurrentPlayer.HitPoints <= 0)
+				if (CurrentPlayer.CurrentHitPoints <= 0)
 				{
 					RaiseMessage("");
 					RaiseMessage($"The {CurrentMonster.Name} killed you.");
 
 					CurrentLocation = CurrentWorld.LocationAt(0, -1); // 回家
-					CurrentPlayer.HitPoints = CurrentPlayer.Level * 10; // 完全恢复生命值
+					CurrentPlayer.CurrentHitPoints = CurrentPlayer.Level * 10; // 完全恢复生命值
 				}
 			}
 		}

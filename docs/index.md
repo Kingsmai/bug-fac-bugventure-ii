@@ -43,7 +43,7 @@ public static int SimpleNumberBetween(int minimumValue, int maximumValue)
 
 ### Player
 
-Extend: [BaseNotificationClass](#BaseNotificationClass)
+Extend: [LivingEntity](#LivingEntity)
 
 角色、玩家类
 
@@ -51,13 +51,9 @@ Extend: [BaseNotificationClass](#BaseNotificationClass)
 
 | 属性值            | 用途/详情                            | 数据类型                            |
 | ----------------- | ------------------------------------ | ----------------------------------- |
-| Name              | 名称                                 | string                              |
 | Class             | 职业（每个职业有不同加成）           | string                              |
-| Hit Points        | 生命值                               | int                                 |
 | Experience Points | 经验值                               | int                                 |
 | Level             | 等级                                 | int                                 |
-| Gold              | 金币                                 | int                                 |
-| Inventory         | 物品栏                               | ObservableCollection\<GameItem\>    |
 | Weapons           | 武器列表：自动找到物品栏里的所有武器 | List\<GameItem\>                    |
 | Quests            | 任务栏                               | ObservableCollection\<QuestStatus\> |
 
@@ -71,13 +67,9 @@ public Player()
 
 #### 方法
 
-##### AddItemToInventory(GameItem item)
+[AddItemToInventory(GameItem item)](#AddItemToInventory(GameItem item))
 
-将物品添加到任务栏里（这个方法会触发Inventory.Add，然后会通知武器列表更新UI）
-
-##### RemoveItemFromInventory(GameItem item)
-
-从列表里删除某样物品
+[RemoveItemFromInventory(GameItem Item)](#RemoveItemFromInventory(GameItem Item))
 
 ##### HasAllTheseItems(List\<ItemQuantity\> items)
 
@@ -264,23 +256,18 @@ public QuestStatus(Quest quest)
 
 ### Monster
 
-Extend: [BaseNotificationClass](#BaseNotificationClass)
+Extend: [LivingEntity](#LivingEntity)
 
 怪物
 
 #### 属性
 
-| 属性值                 | 用途/详情        | 数据类型                             |             |
-| ---------------------- | ---------------- | ------------------------------------ | ----------- |
-| Name                   | 名称             | string                               | private set |
-| ImageName              | 图片名           | string                               |             |
-| MaximumHitPoints       | 最大生命值       | int                                  | private set |
-| HitPoints              | 当前生命值       | int                                  |             |
-| MinimumDamage          | 最小攻击力       | int                                  |             |
-| MaximumDam             | 最大攻击力       | int                                  |             |
-| RewardExperiencePoints | 奖励经验值       | int                                  | private set |
-| RewardGold             | 奖励金币         | int                                  | private set |
-| Inventory              | 物品栏（掉落物） | ObservableCollection\<ItemQuantity\> |             |
+| 属性值                 | 用途/详情  | 数据类型 |             |
+| ---------------------- | ---------- | -------- | ----------- |
+| ImageName              | 图片名     | string   |             |
+| MinimumDamage          | 最小攻击力 | int      |             |
+| MaximumDamage          | 最大攻击力 | int      |             |
+| RewardExperiencePoints | 奖励经验值 | int      | private set |
 
 #### 构造方法
 
@@ -309,14 +296,13 @@ public MonsterEncounter(int monsterID, int chanceOfEncountering)
 
 ### Trader
 
-Extend: [BaseNotificationClass](#BaseNotificationClass)
+Extend: [LivingEntity](#LivingEntity)
 
 #### 属性
 
-| 属性值    | 用途/详情 | 数据类型                         |
-| --------- | --------- | -------------------------------- |
-| Name      | 名称      | string                           |
-| Inventory | 物品栏    | ObservableCollection\<GameItem\> |
+| 属性值 | 用途/详情 | 数据类型 |
+| ------ | --------- | -------- |
+|        |           |          |
 
 #### 构造方法
 
@@ -326,13 +312,32 @@ public Trader(string name)
 
 #### 方法
 
-##### AddItemToInventory(GameItem item)
+[AddItemToInventory(GameItem item)](#AddItemToInventory(GameItem item))
 
-将物品加入到物品栏
+[RemoveItemFromInventory(GameItem Item)](#RemoveItemFromInventory(GameItem Item))
 
-##### RemoveItemFromInventory(GameItem Item)
+### LivingEntity
 
-将物品从物品栏中移除
+Extend: [BaseNotificationClass](#BaseNotificationClass)
+
+【抽象类】所有游戏中的生物（玩家、怪物、商人等）
+
+#### 属性
+
+| 属性值           | 用途/详情          | 数据类型                         |
+| ---------------- | ------------------ | -------------------------------- |
+| Name             | 名称               | string                           |
+| CurrentHitPoints | 当前生命值         | int                              |
+| MaximumHitPoints | 最大生命值         | int                              |
+| Gold             | 金币               | int                              |
+| Inventory        | 物品栏             | ObservableCollection\<GameItem\> |
+| Weapons          | 物品栏列表里的武器 | List\<GameItem\>                 |
+
+#### 方法
+
+[AddItemToInventory(GameItem item)](#AddItemToInventory(GameItem item))
+
+[RemoveItemFromInventory(GameItem Item)](#RemoveItemFromInventory(GameItem Item))
 
 ## BugVentureEngine.ViewModels
 
@@ -550,6 +555,16 @@ To send additional information with an event, you use an “event argument”. W
 ```c#
 public GameMessageEventArgs(string message)
 ```
+
+# 所有方法
+
+## AddItemToInventory(GameItem item)
+
+将物品加入到物品栏
+
+## RemoveItemFromInventory(GameItem Item)
+
+将物品从物品栏中移除
 
 # 游戏中的元素列表
 

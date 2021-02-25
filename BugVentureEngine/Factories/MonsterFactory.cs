@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BugVentureEngine.Models;
+﻿using BugVentureEngine.Models;
+using System;
 
 namespace BugVentureEngine.Factories
 {
@@ -37,7 +33,7 @@ namespace BugVentureEngine.Factories
 		{
 			if (RandomNumberGenerator.NumberBetween(1, 100) <= percentage)
 			{
-				monster.Inventory.Add(new ItemQuantity(itemID, 1));
+				monster.AddItemToInventory(ItemFactory.CreateGameItem(itemID));
 			}
 		}
 	}
