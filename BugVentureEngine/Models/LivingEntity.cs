@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -6,6 +7,9 @@ namespace BugVentureEngine.Models
 {
 	public abstract class LivingEntity : BaseNotificationClass
 	{
+
+		#region Properties
+
 		private string _name;
 		private int _currentHitPoints;
 		private int _maximumHitPoints;
@@ -14,7 +18,7 @@ namespace BugVentureEngine.Models
 		public string Name
 		{
 			get { return _name; }
-			set
+			private set
 			{
 				_name = value;
 				OnPropertyChanged(nameof(Name));
@@ -24,7 +28,7 @@ namespace BugVentureEngine.Models
 		public int CurrentHitPoints
 		{
 			get { return _currentHitPoints; }
-			set
+			private set
 			{
 				_currentHitPoints = value;
 				OnPropertyChanged(nameof(CurrentHitPoints));
@@ -34,7 +38,7 @@ namespace BugVentureEngine.Models
 		public int MaximumHitPoints
 		{
 			get { return _maximumHitPoints; }
-			set
+			private set
 			{
 				_maximumHitPoints = value;
 				OnPropertyChanged(nameof(MaximumHitPoints));
@@ -44,7 +48,7 @@ namespace BugVentureEngine.Models
 		public int Gold
 		{
 			get { return _gold; }
-			set
+			private set
 			{
 				_gold = value;
 				OnPropertyChanged(nameof(Gold));
@@ -58,10 +62,62 @@ namespace BugVentureEngine.Models
 
 		public List<GameItem> Weapons => Inventory.Where(i => i is Weapon).ToList();
 
-		protected LivingEntity()
+		public bool IsDead => CurrentHitPoints <= 0;
+
+		#endregion
+
+		public event EventHandler OnKilled;
+
+		protected LivingEntity(string name, int maximumHitPoints, int currentHitPoints, int gold)
 		{
+			Name = name;
+			MaximumHitPoints = maximumHitPoints;
+			CurrentHitPoints = currentHitPoints;
+			Gold = gold;
+
 			Inventory = new ObservableCollection<GameItem>();
 			GroupedInventory = new ObservableCollection<GroupedInventoryItem>();
+		}
+
+		public void TakeDamage(int hitPointsOfDamage)
+		{
+			CurrentHitPoints -= hitPointsOfDamage;
+
+			if (IsDead)
+			{
+				CurrentHitPoints = 0;
+				RaiseOnKilledEvent();
+			}
+		}
+
+		public void Heal(int hitPointsToHeal)
+		{
+			CurrentHitPoints += hitPointsToHeal;
+
+			if (CurrentHitPoints > MaximumHitPoints)
+			{
+				CurrentHitPoints = MaximumHitPoints;
+			}
+		}
+
+		public void CompletelyHeal()
+		{
+			CurrentHitPoints = MaximumHitPoints;
+		}
+
+		public void ReceiveGold(int amountOfGold)
+		{
+			Gold += amountOfGold;
+		}
+
+		public void SpendGold(int amountOfGold)
+		{
+			if (amountOfGold > Gold)
+			{
+				throw new ArgumentOutOfRangeException($"{Name} only has {Gold} gold, and cannot spend {amountOfGold} gold");
+			}
+
+			Gold -= amountOfGold;
 		}
 
 		public void AddItemToInventory(GameItem item)
@@ -104,5 +160,14 @@ namespace BugVentureEngine.Models
 
 			OnPropertyChanged(nameof(Weapons));
 		}
+
+		#region Private functions
+
+		private void RaiseOnKilledEvent()
+		{
+			OnKilled?.Invoke(this, new System.EventArgs());
+		}
+
+		#endregion
 	}
 }

@@ -27,7 +27,7 @@ namespace BugVentureUI
 
 			if (groupInventoryItem != null)
 			{
-				session.CurrentPlayer.Gold += groupInventoryItem.Item.Price;
+				session.CurrentPlayer.ReceiveGold(groupInventoryItem.Item.Price);
 				session.CurrentTrader.AddItemToInventory(groupInventoryItem.Item);
 				session.CurrentPlayer.RemoveItemFromInventory(groupInventoryItem.Item);
 			}
@@ -41,7 +41,7 @@ namespace BugVentureUI
 			{
 				if (session.CurrentPlayer.Gold >= groupedInventoryItem.Item.Price)
 				{
-					session.CurrentPlayer.Gold -= groupedInventoryItem.Item.Price;
+					session.CurrentPlayer.SpendGold(groupedInventoryItem.Item.Price);
 					session.CurrentTrader.RemoveItemFromInventory(groupedInventoryItem.Item);
 					session.CurrentPlayer.AddItemToInventory(groupedInventoryItem.Item);
 				}

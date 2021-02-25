@@ -62,7 +62,7 @@ Extend: [LivingEntity](#LivingEntity)
 #### 构造方法
 
 ```C#
-public Player()
+public Player(string name, string characterClass, int experiencePoints, int maximumHitPoints, int currentHitPoints, int gold)
 ```
 
 #### 方法
@@ -273,9 +273,9 @@ Extend: [LivingEntity](#LivingEntity)
 #### 构造方法
 
 ```c#
-public Monster(string name, string imageName, int maximumHitPoints, int hitPoints,
-               int minimumDamage, int maximumDamage
-               int rewardExperiencePoints, int rewardGold)
+public Monster(string name, string imageName, int maximumHitPoints, int currentHitPoints,
+               int minimumDamage, int maximumdamage,
+               int rewardExperiencePoints, int gold)
 ```
 
 ### MonsterEncounter
@@ -325,15 +325,16 @@ Extend: [BaseNotificationClass](#BaseNotificationClass)
 
 #### 属性
 
-| 属性值           | 用途/详情          | 数据类型                                     |
-| ---------------- | ------------------ | -------------------------------------------- |
-| Name             | 名称               | string                                       |
-| CurrentHitPoints | 当前生命值         | int                                          |
-| MaximumHitPoints | 最大生命值         | int                                          |
-| Gold             | 金币               | int                                          |
-| Inventory        | 物品栏             | ObservableCollection\<GameItem\>             |
-| GroupedInventory | 带有数量的物品栏   | ObservableCollection\<GroupedInventoryItem\> |
-| Weapons          | 物品栏列表里的武器 | List\<GameItem\>                             |
+| 属性值           | 用途/详情                | 数据类型                                     |             |
+| ---------------- | ------------------------ | -------------------------------------------- | ----------- |
+| Name             | 名称                     | string                                       | private set |
+| CurrentHitPoints | 当前生命值               | int                                          | private set |
+| MaximumHitPoints | 最大生命值               | int                                          | private set |
+| Gold             | 金币                     | int                                          | private set |
+| Inventory        | 物品栏                   | ObservableCollection\<GameItem\>             |             |
+| GroupedInventory | 带有数量的物品栏         | ObservableCollection\<GroupedInventoryItem\> |             |
+| Weapons          | 物品栏列表里的武器       | List\<GameItem\>                             |             |
+| IsDead           | 判断当前生物是否已经死亡 | bool                                         |             |
 
 #### 方法
 
@@ -430,6 +431,14 @@ CurrentMonster = CurrentLocation.GetMonster();
 ##### AttackCurrentMonster()
 
 攻击当前面对的怪物
+
+##### OnCurrentPlayerKilled
+
+当前玩家被杀死之后自动触发
+
+##### OnCurrentMonsterKilled
+
+当前怪物被杀死之后自动触发
 
 ##### RaiseMessage(string message)
 
