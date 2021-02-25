@@ -53,11 +53,16 @@ Extend: [LivingEntity](#LivingEntity)
 | ----------------- | ------------------------------------ | ----------------------------------- |
 | Class             | 职业（每个职业有不同加成）           | string                              |
 | Experience Points | 经验值                               | int                                 |
-| Level             | 等级                                 | int                                 |
 | Weapons           | 武器列表：自动找到物品栏里的所有武器 | List\<GameItem\>                    |
 | Quests            | 任务栏                               | ObservableCollection\<QuestStatus\> |
 
 > ObservableCollection在属性变动时会自动通知UI
+
+#### 事件
+
+##### OnLeveledUp
+
+玩家升级
 
 #### 构造方法
 
@@ -74,6 +79,14 @@ public Player(string name, string characterClass, int experiencePoints, int maxi
 ##### HasAllTheseItems(List\<ItemQuantity\> items)
 
 检查是否拥有列表里的所有物品，并且数量是否足够
+
+##### AddExperience(int experience)
+
+添加经验值
+
+##### SetLevelAndMaximumHitPoints()
+
+计算经验值，如果升级的话：增加最大生命值、提交OnLeveledUp事件
 
 ### Location
 
@@ -325,16 +338,23 @@ Extend: [BaseNotificationClass](#BaseNotificationClass)
 
 #### 属性
 
-| 属性值           | 用途/详情                | 数据类型                                     |             |
-| ---------------- | ------------------------ | -------------------------------------------- | ----------- |
-| Name             | 名称                     | string                                       | private set |
-| CurrentHitPoints | 当前生命值               | int                                          | private set |
-| MaximumHitPoints | 最大生命值               | int                                          | private set |
-| Gold             | 金币                     | int                                          | private set |
-| Inventory        | 物品栏                   | ObservableCollection\<GameItem\>             |             |
-| GroupedInventory | 带有数量的物品栏         | ObservableCollection\<GroupedInventoryItem\> |             |
-| Weapons          | 物品栏列表里的武器       | List\<GameItem\>                             |             |
-| IsDead           | 判断当前生物是否已经死亡 | bool                                         |             |
+| 属性值           | 用途/详情                | 数据类型                                     |               |
+| ---------------- | ------------------------ | -------------------------------------------- | ------------- |
+| Name             | 名称                     | string                                       | private set   |
+| CurrentHitPoints | 当前生命值               | int                                          | private set   |
+| MaximumHitPoints | 最大生命值               | int                                          | protected set |
+| Gold             | 金币                     | int                                          | private set   |
+| Level            | 等级                     | int                                          | protected set |
+| Inventory        | 物品栏                   | ObservableCollection\<GameItem\>             |               |
+| GroupedInventory | 带有数量的物品栏         | ObservableCollection\<GroupedInventoryItem\> |               |
+| Weapons          | 物品栏列表里的武器       | List\<GameItem\>                             |               |
+| IsDead           | 判断当前生物是否已经死亡 | bool                                         |               |
+
+#### 构造方法
+
+```c#
+protected LivingEntity(string name, int maximumHitPoints, int currentHitPoints, int gold, int level = 1)
+```
 
 #### 方法
 

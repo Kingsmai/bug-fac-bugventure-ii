@@ -32,6 +32,7 @@ namespace BugVentureEngine.ViewModels
 			{
 				if (_currentPlayer != null)
 				{
+					_currentPlayer.OnLeveledUp -= OnCurrentPlayerLeveledUp;
 					_currentPlayer.OnKilled -= OnCurrentPlayerKilled;
 				}
 
@@ -39,6 +40,7 @@ namespace BugVentureEngine.ViewModels
 
 				if (_currentPlayer != null)
 				{
+					_currentPlayer.OnLeveledUp += OnCurrentPlayerLeveledUp;
 					_currentPlayer.OnKilled += OnCurrentPlayerKilled;
 				}
 			}
@@ -183,8 +185,8 @@ namespace BugVentureEngine.ViewModels
 						RaiseMessage($"You completed the '{quest.Name}' quest");
 
 						// Give the player the quest rewards
-						CurrentPlayer.ExperiencePoints += quest.RewardExperiencePoints;
 						RaiseMessage($"You receive {quest.RewardExperiencePoints} experience points");
+						CurrentPlayer.AddExperience(quest.RewardExperiencePoints);
 
 						RaiseMessage($"You receive {quest.RewardGold} gold");
 						CurrentPlayer.ReceiveGold(quest.RewardGold);
@@ -295,17 +297,22 @@ namespace BugVentureEngine.ViewModels
 			RaiseMessage("");
 			RaiseMessage($"You defeated the {CurrentMonster.Name}!");
 
-			CurrentPlayer.ExperiencePoints += CurrentMonster.RewardExperiencePoints;
 			RaiseMessage($"You receive {CurrentMonster.RewardExperiencePoints} experience points.");
+			CurrentPlayer.AddExperience(CurrentMonster.RewardExperiencePoints);
 
 			RaiseMessage($"You receive {CurrentMonster.Gold} gold.");
 			CurrentPlayer.ReceiveGold(CurrentMonster.Gold);
 
 			foreach (GameItem gameItem in CurrentMonster.Inventory)
 			{
-				CurrentPlayer.AddItemToInventory(gameItem);
 				RaiseMessage($"You receive one {gameItem.Name}.");
+				CurrentPlayer.AddItemToInventory(gameItem);
 			}
+		}
+
+		private void OnCurrentPlayerLeveledUp(object sender, System.EventArgs eventArgs)
+		{
+			RaiseMessage($"You are now level {CurrentPlayer.Level}!");
 		}
 
 		private void RaiseMessage(string message)
