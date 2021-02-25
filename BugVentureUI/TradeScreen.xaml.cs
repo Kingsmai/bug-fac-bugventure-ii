@@ -23,27 +23,27 @@ namespace BugVentureUI
 			// get the item that sent the click event 
 			// (the row in the datagrid where the user clicked the buy or sell button)
 			// and cast it as a GameItem object.
-			GameItem item = ((FrameworkElement)sender).DataContext as GameItem;
+			GroupedInventoryItem groupInventoryItem = ((FrameworkElement)sender).DataContext as GroupedInventoryItem;
 
-			if (item != null)
+			if (groupInventoryItem != null)
 			{
-				session.CurrentPlayer.Gold += item.Price;
-				session.CurrentTrader.AddItemToInventory(item);
-				session.CurrentPlayer.RemoveItemFromInventory(item);
+				session.CurrentPlayer.Gold += groupInventoryItem.Item.Price;
+				session.CurrentTrader.AddItemToInventory(groupInventoryItem.Item);
+				session.CurrentPlayer.RemoveItemFromInventory(groupInventoryItem.Item);
 			}
 		}
 
 		public void OnClick_Buy(object sender, RoutedEventArgs e)
 		{
-			GameItem item = ((FrameworkElement)sender).DataContext as GameItem;
+			GroupedInventoryItem groupedInventoryItem = ((FrameworkElement)sender).DataContext as GroupedInventoryItem;
 
-			if (item != null)
+			if (groupedInventoryItem != null)
 			{
-				if (session.CurrentPlayer.Gold >= item.Price)
+				if (session.CurrentPlayer.Gold >= groupedInventoryItem.Item.Price)
 				{
-					session.CurrentPlayer.Gold -= item.Price;
-					session.CurrentTrader.RemoveItemFromInventory(item);
-					session.CurrentPlayer.AddItemToInventory(item);
+					session.CurrentPlayer.Gold -= groupedInventoryItem.Item.Price;
+					session.CurrentTrader.RemoveItemFromInventory(groupedInventoryItem.Item);
+					session.CurrentPlayer.AddItemToInventory(groupedInventoryItem.Item);
 				}
 				else
 				{

@@ -144,11 +144,12 @@ public Location LocationAt(int xCoordinates, int yCoordinates)
 
 #### 属性
 
-| 属性值     | 用途/详情 | 数据类型 |
-| ---------- | --------- | -------- |
-| ItemTypeID | 唯一ID值  | int      |
-| Name       | 名称      | string   |
-| Price      | 价格      | int      |
+| 属性值     | 用途/详情            | 数据类型 |
+| ---------- | -------------------- | -------- |
+| ItemTypeID | 唯一ID值             | int      |
+| Name       | 名称                 | string   |
+| Price      | 价格                 | int      |
+| IsUnique   | 是否单独生成一个对象 | bool     |
 
 #### 构造方法
 
@@ -324,20 +325,34 @@ Extend: [BaseNotificationClass](#BaseNotificationClass)
 
 #### 属性
 
-| 属性值           | 用途/详情          | 数据类型                         |
-| ---------------- | ------------------ | -------------------------------- |
-| Name             | 名称               | string                           |
-| CurrentHitPoints | 当前生命值         | int                              |
-| MaximumHitPoints | 最大生命值         | int                              |
-| Gold             | 金币               | int                              |
-| Inventory        | 物品栏             | ObservableCollection\<GameItem\> |
-| Weapons          | 物品栏列表里的武器 | List\<GameItem\>                 |
+| 属性值           | 用途/详情          | 数据类型                                     |
+| ---------------- | ------------------ | -------------------------------------------- |
+| Name             | 名称               | string                                       |
+| CurrentHitPoints | 当前生命值         | int                                          |
+| MaximumHitPoints | 最大生命值         | int                                          |
+| Gold             | 金币               | int                                          |
+| Inventory        | 物品栏             | ObservableCollection\<GameItem\>             |
+| GroupedInventory | 带有数量的物品栏   | ObservableCollection\<GroupedInventoryItem\> |
+| Weapons          | 物品栏列表里的武器 | List\<GameItem\>                             |
 
 #### 方法
 
 [AddItemToInventory(GameItem item)](#AddItemToInventory(GameItem item))
 
 [RemoveItemFromInventory(GameItem Item)](#RemoveItemFromInventory(GameItem Item))
+
+### GroupedInventoryItem
+
+Extend: [BaseNotificationClass](#BaseNotificationClass)
+
+是ItemQuantity类的衍生，保存物品的数量
+
+#### 属性
+
+| 属性值   | 用途/详情 | 数据类型 |
+| -------- | --------- | -------- |
+| Item     | 游戏物品  | GameItem |
+| Quantity | 物品数量  | int      |
 
 ## BugVentureEngine.ViewModels
 
