@@ -171,7 +171,6 @@ namespace BugVentureEngine.ViewModels
 					if (CurrentPlayer.HasAllTheseItems(quest.ItemsToComplete))
 					{
 						// Remove the quest completion items from the player's inventory
-						// TODO: 这里有个BUG - 完成任务时，只消除一个任务道具
 						foreach (ItemQuantity itemQuantity in quest.ItemsToComplete)
 						{
 							for (int i = 0; i < itemQuantity.Quantity; i++)

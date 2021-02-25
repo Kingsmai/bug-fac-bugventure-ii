@@ -144,7 +144,9 @@ namespace BugVentureEngine.Models
 		{
 			Inventory.Remove(item);
 
-			GroupedInventoryItem groupedInventoryItemToRemove = GroupedInventory.FirstOrDefault(gi => gi.Item == item);
+			GroupedInventoryItem groupedInventoryItemToRemove = item.IsUnique ?
+				GroupedInventory.FirstOrDefault(gi => gi.Item == item) : // 如果是独特物品（找到指定物品）
+				GroupedInventory.FirstOrDefault(gi => gi.Item.ItemTypeID == item.ItemTypeID); // 如果不是（找到指定ID的物品）
 
 			if (groupedInventoryItemToRemove != null)
 			{
