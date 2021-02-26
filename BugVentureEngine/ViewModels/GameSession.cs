@@ -127,7 +127,7 @@ namespace BugVentureEngine.ViewModels
 
 			CurrentWorld = WorldFactory.CreateWorld();
 
-			CurrentLocation = CurrentWorld.LocationAt(0, -1);
+			CurrentLocation = CurrentWorld.LocationAt(0, 0);
 		}
 
 		public void MoveNorth()
@@ -286,7 +286,7 @@ namespace BugVentureEngine.ViewModels
 		private void OnCurrentPlayerKilled(object sender, System.EventArgs eventArgs)
 		{
 			RaiseMessage("");
-			RaiseMessage($"The {CurrentMonster.Name} killed you.");
+			RaiseMessage("You have been killed.");
 
 			CurrentLocation = CurrentWorld.LocationAt(0, -1); // 回家
 			CurrentPlayer.CompletelyHeal(); // 完全恢复生命值
