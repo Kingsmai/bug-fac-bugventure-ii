@@ -155,19 +155,28 @@ public Location LocationAt(int xCoordinates, int yCoordinates)
 
 游戏道具
 
+#### 枚举
+
+1. Miscellaneous
+2. Weapon
+
 #### 属性
 
-| 属性值     | 用途/详情            | 数据类型 |
-| ---------- | -------------------- | -------- |
-| ItemTypeID | 唯一ID值             | int      |
-| Name       | 名称                 | string   |
-| Price      | 价格                 | int      |
-| IsUnique   | 是否单独生成一个对象 | bool     |
+| 属性值        | 用途/详情                     | 数据类型     |
+| ------------- | ----------------------------- | ------------ |
+| Category      | 枚举选择道具类型              | ItemCategory |
+| ItemTypeID    | 唯一ID值                      | int          |
+| Name          | 名称                          | string       |
+| Price         | 价格                          | int          |
+| IsUnique      | 是否单独生成一个对象          | bool         |
+| MaximumDamage | 27/2/2021更新<br />最大攻击力 | int          |
+| MinimumDamage | 27/2/2021更新<br />最小攻击力 | int          |
 
 #### 构造方法
 
 ```c#
-public GameItem(int itemTypeID, string name, int price)
+public GameItem(ItemCategory category, int itemTypeID, string name, int price,
+			bool isUnique = false, int minimumDamage = 0, int maximumDamage = 0)
 ```
 
 #### 方法
@@ -182,11 +191,11 @@ public GameItem(int itemTypeID, string name, int price)
 public GameItem Clone()
 ```
 
-### Weapon
+### [Deprecated] Weapon
 
 Extend: [GameItem](#GameItem)
 
-武器
+武器 - 27/2/2021 已废弃
 
 #### 属性
 
@@ -387,20 +396,20 @@ Extend: [BaseNotificationClass](#BaseNotificationClass)
 
 #### 属性
 
-| 属性值             | 用途/详情                                                    | 数据类型 |
-| ------------------ | ------------------------------------------------------------ | -------- |
-| CurrentWorld       | 当前所处世界                                                 | World    |
-| CurrentPlayer      | 当前角色                                                     | Player   |
-| CurrentLocation    | 当前地点<br />修改它的值时，会自动给玩家当前地点所存在的任务<br />会自动刷新当前面对的怪物 | Location |
-| CurrentMonster     | 当前面对的怪物                                               | Monster  |
-| CurrentTrader      | 当前地点所存在的商人                                         | Trader   |
-| CurrentWeapon      | 当前装备武器                                                 | Weapon   |
-| HasLocationToNorth | 【只读】检查北边是否有路                                     | bool     |
-| HasLocationToEast  | 【只读】检查东边是否有路                                     | bool     |
-| HasLocationToSouth | 【只读】检查南边是否有路                                     | bool     |
-| HasLocationToWest  | 【只读】检查西边是否有路                                     | bool     |
-| HasMonster         | 当当前位置有怪物时，为true                                   | bool     |
-| HasTrader          | 当当前位置有商人时，为true                                   | bool     |
+| 属性值             | 用途/详情                                                    | 数据类型                 |
+| ------------------ | ------------------------------------------------------------ | ------------------------ |
+| CurrentWorld       | 当前所处世界                                                 | World                    |
+| CurrentPlayer      | 当前角色                                                     | Player                   |
+| CurrentLocation    | 当前地点<br />修改它的值时，会自动给玩家当前地点所存在的任务<br />会自动刷新当前面对的怪物 | Location                 |
+| CurrentMonster     | 当前面对的怪物                                               | Monster                  |
+| CurrentTrader      | 当前地点所存在的商人                                         | Trader                   |
+| CurrentWeapon      | 当前装备武器                                                 | ~~Weapon~~<br />GameItem |
+| HasLocationToNorth | 【只读】检查北边是否有路                                     | bool                     |
+| HasLocationToEast  | 【只读】检查东边是否有路                                     | bool                     |
+| HasLocationToSouth | 【只读】检查南边是否有路                                     | bool                     |
+| HasLocationToWest  | 【只读】检查西边是否有路                                     | bool                     |
+| HasMonster         | 当当前位置有怪物时，为true                                   | bool                     |
+| HasTrader          | 当当前位置有商人时，为true                                   | bool                     |
 
 #### 构造方法
 

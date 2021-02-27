@@ -71,7 +71,7 @@ namespace BugVentureEngine.Models
 
 		public ObservableCollection<GroupedInventoryItem> GroupedInventory { get; set; }
 
-		public List<GameItem> Weapons => Inventory.Where(i => i is Weapon).ToList();
+		public List<GameItem> Weapons => Inventory.Where(i => i.Category == GameItem.ItemCategory.Weapon).ToList();
 
 		public bool IsDead => CurrentHitPoints <= 0;
 
