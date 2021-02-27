@@ -162,21 +162,22 @@ public Location LocationAt(int xCoordinates, int yCoordinates)
 
 #### 属性
 
-| 属性值        | 用途/详情                     | 数据类型     |
-| ------------- | ----------------------------- | ------------ |
-| Category      | 枚举选择道具类型              | ItemCategory |
-| ItemTypeID    | 唯一ID值                      | int          |
-| Name          | 名称                          | string       |
-| Price         | 价格                          | int          |
-| IsUnique      | 是否单独生成一个对象          | bool         |
-| MaximumDamage | 27/2/2021更新<br />最大攻击力 | int          |
-| MinimumDamage | 27/2/2021更新<br />最小攻击力 | int          |
+| 属性值            | 用途/详情                                 | 数据类型         |          |
+| ----------------- | ----------------------------------------- | ---------------- | -------- |
+| Category          | 枚举选择道具类型                          | ItemCategory     |          |
+| ItemTypeID        | 唯一ID值                                  | int              |          |
+| Name              | 名称                                      | string           |          |
+| Price             | 价格                                      | int              |          |
+| IsUnique          | 是否单独生成一个对象                      | bool             |          |
+| ~~MaximumDamage~~ | 27/2/2021更新 -> 移除<br />最大攻击力     | int              | get only |
+| ~~MinimumDamage~~ | 27/2/2021更新 -> 移除<br />最小攻击力     | int              | get only |
+| Action            | 27/2/2021更新<br />动作（CommandPattern） | AttackWithWeapon |          |
 
 #### 构造方法
 
 ```c#
 public GameItem(ItemCategory category, int itemTypeID, string name, int price,
-			bool isUnique = false, int minimumDamage = 0, int maximumDamage = 0)
+			bool isUnique = false, AttackWithWeapon action = null)
 ```
 
 #### 方法
@@ -347,17 +348,24 @@ Extend: [BaseNotificationClass](#BaseNotificationClass)
 
 #### 属性
 
-| 属性值           | 用途/详情                | 数据类型                                     |               |
-| ---------------- | ------------------------ | -------------------------------------------- | ------------- |
-| Name             | 名称                     | string                                       | private set   |
-| CurrentHitPoints | 当前生命值               | int                                          | private set   |
-| MaximumHitPoints | 最大生命值               | int                                          | protected set |
-| Gold             | 金币                     | int                                          | private set   |
-| Level            | 等级                     | int                                          | protected set |
-| Inventory        | 物品栏                   | ObservableCollection\<GameItem\>             |               |
-| GroupedInventory | 带有数量的物品栏         | ObservableCollection\<GroupedInventoryItem\> |               |
-| Weapons          | 物品栏列表里的武器       | List\<GameItem\>                             |               |
-| IsDead           | 判断当前生物是否已经死亡 | bool                                         |               |
+| 属性值           | 用途/详情                        | 数据类型                                     |               |
+| ---------------- | -------------------------------- | -------------------------------------------- | ------------- |
+| Name             | 名称                             | string                                       | private set   |
+| CurrentHitPoints | 当前生命值                       | int                                          | private set   |
+| MaximumHitPoints | 最大生命值                       | int                                          | protected set |
+| Gold             | 金币                             | int                                          | private set   |
+| Level            | 等级                             | int                                          | protected set |
+| CurrentWeapon    | 27/2/2021 更新<br />当前所持武器 | GameItem                                     |               |
+| Inventory        | 物品栏                           | ObservableCollection\<GameItem\>             |               |
+| GroupedInventory | 带有数量的物品栏                 | ObservableCollection\<GroupedInventoryItem\> |               |
+| Weapons          | 物品栏列表里的武器               | List\<GameItem\>                             |               |
+| IsDead           | 判断当前生物是否已经死亡         | bool                                         |               |
+
+#### 事件
+
+OnKilled - 当此生物死亡触发
+
+OnActionPerformed - 当此生物执行某项动作
 
 #### 构造方法
 
@@ -403,7 +411,7 @@ Extend: [BaseNotificationClass](#BaseNotificationClass)
 | CurrentLocation    | 当前地点<br />修改它的值时，会自动给玩家当前地点所存在的任务<br />会自动刷新当前面对的怪物 | Location                 |
 | CurrentMonster     | 当前面对的怪物                                               | Monster                  |
 | CurrentTrader      | 当前地点所存在的商人                                         | Trader                   |
-| CurrentWeapon      | 当前装备武器                                                 | ~~Weapon~~<br />GameItem |
+| ~~CurrentWeapon~~  | 27/2/2021 摒弃<br />当前装备武器                             | ~~Weapon~~<br />GameItem |
 | HasLocationToNorth | 【只读】检查北边是否有路                                     | bool                     |
 | HasLocationToEast  | 【只读】检查东边是否有路                                     | bool                     |
 | HasLocationToSouth | 【只读】检查南边是否有路                                     | bool                     |
@@ -460,6 +468,10 @@ CurrentMonster = CurrentLocation.GetMonster();
 ##### AttackCurrentMonster()
 
 攻击当前面对的怪物
+
+##### OnCurrentPlayerPerformedAction
+
+当前玩家执行动作
 
 ##### OnCurrentPlayerKilled
 
@@ -608,6 +620,16 @@ To send additional information with an event, you use an “event argument”. W
 ```c#
 public GameMessageEventArgs(string message)
 ```
+
+## BugVentureEngine.Actions
+
+### AttackWithWeapon
+
+#### 方法
+
+##### Execute(LivingEntity actor, LivingEntity target)
+
+actor 对 target 造成伤害
 
 # 所有方法
 
