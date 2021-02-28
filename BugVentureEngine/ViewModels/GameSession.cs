@@ -76,6 +76,7 @@ namespace BugVentureEngine.ViewModels
 			{
 				if (_currentMonster != null)
 				{
+					_currentMonster.OnActionPerformed -= OnCurrentMonsterPerformedAction;
 					_currentMonster.OnKilled -= OnCurrentMonsterKilled;
 				}
 
@@ -83,6 +84,7 @@ namespace BugVentureEngine.ViewModels
 
 				if (CurrentMonster != null)
 				{
+					_currentMonster.OnActionPerformed += OnCurrentMonsterPerformedAction;
 					_currentMonster.OnKilled += OnCurrentMonsterKilled;
 
 					RaiseMessage("");
@@ -257,22 +259,16 @@ namespace BugVentureEngine.ViewModels
 			}
 			else
 			{
-				// 如果怪物还活着，轮到怪物的回合
-				int damageToPlayer = RandomNumberGenerator.NumberBetween(CurrentMonster.MinimumDamage, CurrentMonster.MaximumDamage);
-
-				if (damageToPlayer == 0)
-				{
-					RaiseMessage($"The {CurrentMonster.Name} attacks, but miss you.");
-				}
-				else
-				{
-					RaiseMessage($"The {CurrentMonster.Name} hit you for {damageToPlayer} points.");
-					CurrentPlayer.TakeDamage(damageToPlayer); // 先显示信息，再承伤，因为如果玩家死了会触发事件
-				}
+				_currentMonster.UseCurrentWeaponOn(CurrentPlayer);
 			}
 		}
 
 		private void OnCurrentPlayerPerformedAction(object sender, string result)
+		{
+			RaiseMessage(result);
+		}
+
+		private void OnCurrentMonsterPerformedAction(object sender, string result)
 		{
 			RaiseMessage(result);
 		}

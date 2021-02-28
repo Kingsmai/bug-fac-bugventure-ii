@@ -286,18 +286,17 @@ Extend: [LivingEntity](#LivingEntity)
 
 #### 属性
 
-| 属性值                 | 用途/详情  | 数据类型 |             |
-| ---------------------- | ---------- | -------- | ----------- |
-| ImageName              | 图片名     | string   |             |
-| MinimumDamage          | 最小攻击力 | int      |             |
-| MaximumDamage          | 最大攻击力 | int      |             |
-| RewardExperiencePoints | 奖励经验值 | int      | private set |
+| 属性值                 | 用途/详情                      | 数据类型 |             |
+| ---------------------- | ------------------------------ | -------- | ----------- |
+| ImageName              | 图片名                         | string   |             |
+| ~~MinimumDamage~~      | 最小攻击力<br />28/2/2021 移除 | int      |             |
+| ~~MaximumDamage~~      | 最大攻击力<br />28/2/2021 移除 | int      |             |
+| RewardExperiencePoints | 奖励经验值                     | int      | private set |
 
 #### 构造方法
 
 ```c#
 public Monster(string name, string imageName, int maximumHitPoints, int currentHitPoints,
-               int minimumDamage, int maximumdamage,
                int rewardExperiencePoints, int gold)
 ```
 
@@ -472,6 +471,10 @@ CurrentMonster = CurrentLocation.GetMonster();
 ##### OnCurrentPlayerPerformedAction
 
 当前玩家执行动作
+
+##### OnCurrentMonsterPerformedAction
+
+当前怪物执行动作
 
 ##### OnCurrentPlayerKilled
 
@@ -669,6 +672,9 @@ actor 对 target 造成伤害
 | -------- | ---- | ------------ | ---- | ---------- | ---------- |
 | Weapon   | 1001 | Pointy Stick | 1    | 1          | 2          |
 | Weapon   | 1002 | Rusty Sword  | 5    | 1          | 3          |
+| Weapon   | 1501 | Snake fangs  | 0    | 0          | 2          |
+| Weapon   | 1502 | Rat claws    | 0    | 0          | 2          |
+| Weapon   | 1503 | Spider fangs | 0    | 0          | 4          |
 | GameItem | 9001 | Snake fang   | 1    |            |            |
 | GameItem | 9002 | Snakeskin    | 2    |            |            |
 | GameItem | 9003 | Rat tail     | 1    |            |            |
@@ -684,11 +690,11 @@ actor 对 target 造成伤害
 
 ## 怪物
 
-| ID   | 名称         | 生命值 | 奖励经验值 | 奖励金币 | 掉落物                               | 出现地点           |
-| ---- | ------------ | ------ | ---------- | -------- | ------------------------------------ | ------------------ |
-| 1    | Snake        | 4      | 5          | 1        | Snake fang 25%<br />Snakeskin 75%    | Herbalist's garden |
-| 2    | Rat          | 5      | 5          | 1        | Rat tail 25%<br />Rat fur 75%        | Farmer's Field     |
-| 3    | Giant Spider | 10     | 10         | 3        | Spider fang 25%<br />Spider silk 75% | Spider Forest      |
+| ID   | 名称         | 生命值 | 武器ID | 奖励经验值 | 奖励金币 | 掉落物                               | 出现地点           |
+| ---- | ------------ | ------ | ------ | ---------- | -------- | ------------------------------------ | ------------------ |
+| 1    | Snake        | 4      | 1501   | 5          | 1        | Snake fang 25%<br />Snakeskin 75%    | Herbalist's garden |
+| 2    | Rat          | 5      | 1502   | 5          | 1        | Rat tail 25%<br />Rat fur 75%        | Farmer's Field     |
+| 3    | Giant Spider | 10     | 1503   | 10         | 3        | Spider fang 25%<br />Spider silk 75% | Spider Forest      |
 
 ## 商人
 
