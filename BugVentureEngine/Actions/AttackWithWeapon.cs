@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BugVentureEngine.Models;
 
 namespace BugVentureEngine.Actions
 {
-	public class AttackWithWeapon
+	public class AttackWithWeapon : IAction
 	{
 		private readonly GameItem _weapon;
 		private readonly int _minimumDamage;

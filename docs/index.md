@@ -162,16 +162,16 @@ public Location LocationAt(int xCoordinates, int yCoordinates)
 
 #### 属性
 
-| 属性值            | 用途/详情                                 | 数据类型         |          |
-| ----------------- | ----------------------------------------- | ---------------- | -------- |
-| Category          | 枚举选择道具类型                          | ItemCategory     |          |
-| ItemTypeID        | 唯一ID值                                  | int              |          |
-| Name              | 名称                                      | string           |          |
-| Price             | 价格                                      | int              |          |
-| IsUnique          | 是否单独生成一个对象                      | bool             |          |
-| ~~MaximumDamage~~ | 27/2/2021更新 -> 移除<br />最大攻击力     | int              | get only |
-| ~~MinimumDamage~~ | 27/2/2021更新 -> 移除<br />最小攻击力     | int              | get only |
-| Action            | 27/2/2021更新<br />动作（CommandPattern） | AttackWithWeapon |          |
+| 属性值            | 用途/详情                                 | 数据类型                          |          |
+| ----------------- | ----------------------------------------- | --------------------------------- | -------- |
+| Category          | 枚举选择道具类型                          | ItemCategory                      |          |
+| ItemTypeID        | 唯一ID值                                  | int                               |          |
+| Name              | 名称                                      | string                            |          |
+| Price             | 价格                                      | int                               |          |
+| IsUnique          | 是否单独生成一个对象                      | bool                              |          |
+| ~~MaximumDamage~~ | 27/2/2021更新 -> 移除<br />最大攻击力     | int                               | get only |
+| ~~MinimumDamage~~ | 27/2/2021更新 -> 移除<br />最小攻击力     | int                               | get only |
+| Action            | 27/2/2021更新<br />动作（CommandPattern） | ~~AttackWithWeapon~~<br />IAction |          |
 
 #### 构造方法
 
@@ -623,7 +623,13 @@ public GameMessageEventArgs(string message)
 
 ## BugVentureEngine.Actions
 
+### IAction
+
+命令设计模式的接口
+
 ### AttackWithWeapon
+
+Extends: [IAction](#IAction)
 
 #### 方法
 
