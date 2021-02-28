@@ -634,19 +634,23 @@ public GameMessageEventArgs(string message)
 
 ## BugVentureEngine.Actions
 
+### BaseAction
+
+抽象类
+
 ### IAction
 
 命令设计模式的接口
 
 ### AttackWithWeapon
 
-Extends: [IAction](#IAction)
+Extends: [BaseAction](#BaseAction), [IAction](#IAction)
 
 Execute actor 对 target 造成伤害
 
 ### Heal
 
-Extends: [IAction](#IAction)
+Extends: [BaseAction](#BaseAction), [IAction](#IAction)
 
 Execute
 
