@@ -13,7 +13,7 @@
 
 ## 目前界面进度
 
-<img src="./README.pngs/Screenshots/20210226-1.png" alt="Lastest Screenshot" style="zoom:75%;" />
+<img src="./README.pngs/Screenshots/20210228-1.png" alt="Lastest Screenshot" style="zoom:75%;" />
 
 ## 游戏设计
 
@@ -53,7 +53,7 @@
 
 ### 后续更新
 
-- [ ] 药水系统
+- [x] 药水系统【消耗品】
 - [ ] 合成系统
 
 ## 已知BUG

@@ -7,10 +7,8 @@ namespace BugVentureEngine.Factories
 {
 	public static class ItemFactory
 	{
-		// 保存世界里所有的道具，以便可以达到“找到这个道具，然后返回这个道具”的效果
 		private static readonly List<GameItem> _standardGameItems = new List<GameItem>();
 
-		// 任何人使用任何这个类的东西，以下函数将会被执行
 		static ItemFactory()
 		{
 			BuildWeapon(1001, "Pointy Stick", 1, 1, 2);
@@ -19,6 +17,8 @@ namespace BugVentureEngine.Factories
 			BuildWeapon(1501, "Snake fangs", 0, 0, 2);
 			BuildWeapon(1502, "Rat claws", 0, 0, 2);
 			BuildWeapon(1503, "Spider fangs", 0, 0, 4);
+
+			BuildHealingItem(2001, "Granola bar", 5, 2);
 
 			BuildMiscellaneousItem(9001, "Snake fang", 1);
 			BuildMiscellaneousItem(9002, "Snakeskin", 2);
@@ -41,10 +41,15 @@ namespace BugVentureEngine.Factories
 		private static void BuildWeapon(int id, string name, int price, int minimumDamage, int maximumDamage)
 		{
 			GameItem weapon = new GameItem(GameItem.ItemCategory.Weapon, id, name, price, true);
-
 			weapon.Action = new AttackWithWeapon(weapon, minimumDamage, maximumDamage);
-
 			_standardGameItems.Add(weapon);
+		}
+
+		private static void BuildHealingItem(int id, string name, int price, int hitPointsToHeal)
+		{
+			GameItem item = new GameItem(GameItem.ItemCategory.Consumable, id, name, price);
+			item.Action = new Heal(item, hitPointsToHeal);
+			_standardGameItems.Add(item);
 		}
 	}
 }

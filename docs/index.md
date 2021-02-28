@@ -159,6 +159,7 @@ public Location LocationAt(int xCoordinates, int yCoordinates)
 
 1. Miscellaneous
 2. Weapon
+3. Consumable
 
 #### 属性
 
@@ -347,18 +348,21 @@ Extend: [BaseNotificationClass](#BaseNotificationClass)
 
 #### 属性
 
-| 属性值           | 用途/详情                        | 数据类型                                     |               |
-| ---------------- | -------------------------------- | -------------------------------------------- | ------------- |
-| Name             | 名称                             | string                                       | private set   |
-| CurrentHitPoints | 当前生命值                       | int                                          | private set   |
-| MaximumHitPoints | 最大生命值                       | int                                          | protected set |
-| Gold             | 金币                             | int                                          | private set   |
-| Level            | 等级                             | int                                          | protected set |
-| CurrentWeapon    | 27/2/2021 更新<br />当前所持武器 | GameItem                                     |               |
-| Inventory        | 物品栏                           | ObservableCollection\<GameItem\>             |               |
-| GroupedInventory | 带有数量的物品栏                 | ObservableCollection\<GroupedInventoryItem\> |               |
-| Weapons          | 物品栏列表里的武器               | List\<GameItem\>                             |               |
-| IsDead           | 判断当前生物是否已经死亡         | bool                                         |               |
+| 属性值            | 用途/详情                          | 数据类型                                     |               |
+| ----------------- | ---------------------------------- | -------------------------------------------- | ------------- |
+| Name              | 名称                               | string                                       | private set   |
+| CurrentHitPoints  | 当前生命值                         | int                                          | private set   |
+| MaximumHitPoints  | 最大生命值                         | int                                          | protected set |
+| Gold              | 金币                               | int                                          | private set   |
+| Level             | 等级                               | int                                          | protected set |
+| CurrentWeapon     | 27/2/2021 更新<br />当前所持武器   | GameItem                                     |               |
+| CurrentConsumable | 当前所持可消耗道具                 | GameItem                                     |               |
+| Inventory         | 物品栏                             | ObservableCollection\<GameItem\>             |               |
+| GroupedInventory  | 带有数量的物品栏                   | ObservableCollection\<GroupedInventoryItem\> |               |
+| Weapons           | 物品栏列表里的武器                 | List\<GameItem\>                             |               |
+| Consumables       | 物品栏列表里的可消耗道具           | List\<GameItem\>                             |               |
+| HasConsumable     | 【UI用】检测玩家是否持有可消耗道具 | bool                                         |               |
+| IsDead            | 判断当前生物是否已经死亡           | bool                                         |               |
 
 #### 事件
 
@@ -467,6 +471,10 @@ CurrentMonster = CurrentLocation.GetMonster();
 ##### AttackCurrentMonster()
 
 攻击当前面对的怪物
+
+##### UseCurrentConsumable()
+
+使用当前的可消耗道具
 
 ##### OnCurrentPlayerPerformedAction
 
@@ -634,11 +642,13 @@ public GameMessageEventArgs(string message)
 
 Extends: [IAction](#IAction)
 
-#### 方法
+Execute actor 对 target 造成伤害
 
-##### Execute(LivingEntity actor, LivingEntity target)
+### Heal
 
-actor 对 target 造成伤害
+Extends: [IAction](#IAction)
+
+Execute
 
 # 所有方法
 
@@ -668,19 +678,23 @@ actor 对 target 造成伤害
 
 ## 道具
 
-| 类型     | ID   | 名称         | 价格 | 最小攻击力 | 最大攻击力 |
-| -------- | ---- | ------------ | ---- | ---------- | ---------- |
-| Weapon   | 1001 | Pointy Stick | 1    | 1          | 2          |
-| Weapon   | 1002 | Rusty Sword  | 5    | 1          | 3          |
-| Weapon   | 1501 | Snake fangs  | 0    | 0          | 2          |
-| Weapon   | 1502 | Rat claws    | 0    | 0          | 2          |
-| Weapon   | 1503 | Spider fangs | 0    | 0          | 4          |
-| GameItem | 9001 | Snake fang   | 1    |            |            |
-| GameItem | 9002 | Snakeskin    | 2    |            |            |
-| GameItem | 9003 | Rat tail     | 1    |            |            |
-| GameItem | 9004 | Rat fur      | 2    |            |            |
-| GameItem | 9005 | Spider fang  | 1    |            |            |
-| GameItem | 9006 | Spider silk  | 2    |            |            |
+| 类型        | ID   | 名称         | 价格 | 最小攻击力 | 最大攻击力 | 回复效果 |
+| ----------- | ---- | ------------ | ---- | ---------- | ---------- | -------- |
+| Weapon      | 1001 | Pointy Stick | 1    | 1          | 2          |          |
+| Weapon      | 1002 | Rusty Sword  | 5    | 1          | 3          |          |
+|             |      |              |      |            |            |          |
+| Weapon      | 1501 | Snake fangs  | 0    | 0          | 2          |          |
+| Weapon      | 1502 | Rat claws    | 0    | 0          | 2          |          |
+| Weapon      | 1503 | Spider fangs | 0    | 0          | 4          |          |
+|             |      |              |      |            |            |          |
+| HealingItem | 2001 | GranolaBar   | 5    |            |            | 2        |
+|             |      |              |      |            |            |          |
+| GameItem    | 9001 | Snake fang   | 1    |            |            |          |
+| GameItem    | 9002 | Snakeskin    | 2    |            |            |          |
+| GameItem    | 9003 | Rat tail     | 1    |            |            |          |
+| GameItem    | 9004 | Rat fur      | 2    |            |            |          |
+| GameItem    | 9005 | Spider fang  | 1    |            |            |          |
+| GameItem    | 9006 | Spider silk  | 2    |            |            |          |
 
 ## 任务
 

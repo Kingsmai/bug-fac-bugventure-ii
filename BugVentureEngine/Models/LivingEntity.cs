@@ -16,6 +16,7 @@ namespace BugVentureEngine.Models
 		private int _gold;
 		private int _level;
 		private GameItem _currentWeapon;
+		private GameItem _currentConsumable;
 
 		public string Name
 		{
@@ -86,12 +87,37 @@ namespace BugVentureEngine.Models
 			}
 		}
 
+		public GameItem CurrentConsumable
+		{
+			get => _currentConsumable;
+			set
+			{
+				if (_currentConsumable != null)
+				{
+					_currentConsumable.Action.OnActionPerformed -= RaiseActionPerformedEvent;
+				}
+
+				_currentConsumable = value;
+
+				if (_currentConsumable != null)
+				{
+					_currentConsumable.Action.OnActionPerformed += RaiseActionPerformedEvent;
+				}
+
+				OnPropertyChanged(nameof(CurrentConsumable));
+			}
+		}
+
 		// ObservableCollection在变动时会自动通知UI
 		public ObservableCollection<GameItem> Inventory { get; set; }
 
 		public ObservableCollection<GroupedInventoryItem> GroupedInventory { get; set; }
 
 		public List<GameItem> Weapons => Inventory.Where(i => i.Category == GameItem.ItemCategory.Weapon).ToList();
+
+		public List<GameItem> Consumables => Inventory.Where(i => i.Category == GameItem.ItemCategory.Consumable).ToList();
+
+		public bool HasConsumable => Consumables.Any();
 
 		public bool IsDead => CurrentHitPoints <= 0;
 
@@ -115,6 +141,12 @@ namespace BugVentureEngine.Models
 		public void UseCurrentWeaponOn(LivingEntity target)
 		{
 			CurrentWeapon.PerformAction(this, target);
+		}
+
+		public void UseCurrentConsumable()
+		{
+			CurrentConsumable.PerformAction(this, this);
+			RemoveItemFromInventory(CurrentConsumable);
 		}
 
 		public void TakeDamage(int hitPointsOfDamage)
@@ -176,6 +208,8 @@ namespace BugVentureEngine.Models
 			}
 
 			OnPropertyChanged(nameof(Weapons));
+			OnPropertyChanged(nameof(Consumables));
+			OnPropertyChanged(nameof(HasConsumable));
 		}
 
 		public void RemoveItemFromInventory(GameItem item)
@@ -199,6 +233,8 @@ namespace BugVentureEngine.Models
 			}
 
 			OnPropertyChanged(nameof(Weapons));
+			OnPropertyChanged(nameof(Consumables));
+			OnPropertyChanged(nameof(HasConsumable));
 		}
 
 		#region Private functions
