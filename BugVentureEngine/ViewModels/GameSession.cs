@@ -285,7 +285,7 @@ namespace BugVentureEngine.ViewModels
 			}
 			else
 			{
-				RaiseMessage("You do not have the required ingredients");
+				RaiseMessage("You do not have the required ingredients:");
 				foreach (ItemQuantity itemQuantity in recipe.Ingredients)
 				{
 					RaiseMessage($"  {itemQuantity.Quantity} {ItemFactory.ItemName(itemQuantity.ItemID)}");

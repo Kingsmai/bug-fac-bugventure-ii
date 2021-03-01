@@ -8,7 +8,7 @@ namespace BugVentureEngine.Actions
 		private readonly int _hitPointsToHeal;
 
 
-		public Heal (GameItem itemInUse, int hitPointsToHeal) : base(itemInUse)
+		public Heal(GameItem itemInUse, int hitPointsToHeal) : base(itemInUse)
 		{
 			if (itemInUse.Category != GameItem.ItemCategory.Consumable)
 			{

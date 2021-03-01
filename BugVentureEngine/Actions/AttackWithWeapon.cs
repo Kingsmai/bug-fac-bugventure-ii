@@ -1,5 +1,5 @@
-﻿using System;
-using BugVentureEngine.Models;
+﻿using BugVentureEngine.Models;
+using System;
 
 namespace BugVentureEngine.Actions
 {

@@ -1,6 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using BugVentureEngine.ViewModels;
+﻿using BugVentureEngine.ViewModels;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BugVentureTestEngine.ViewModels
 {
