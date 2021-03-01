@@ -492,6 +492,10 @@ CurrentMonster = CurrentLocation.GetMonster();
 
 使用当前的可消耗道具
 
+##### CraftItemUsing(Recipe recipe)
+
+使用合成配方合成道具
+
 ##### OnCurrentPlayerPerformedAction
 
 当前玩家执行动作
@@ -543,6 +547,10 @@ internal static World CreateWorld()
 ```C#
 public static GameItem CreateGameItem(int itemTypeID)
 ```
+
+##### ItemName(int itemTypeID)
+
+通过ID查找物品名（如果没有该物品，则返回""）
 
 ### QuestFactory
 

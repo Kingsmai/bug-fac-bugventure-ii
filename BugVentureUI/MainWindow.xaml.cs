@@ -1,4 +1,5 @@
 ﻿using BugVentureEngine.EventArgs;
+using BugVentureEngine.Models;
 using BugVentureEngine.ViewModels;
 using System.Windows;
 using System.Windows.Documents;
@@ -56,6 +57,12 @@ namespace BugVentureUI
 			tradeScreen.Owner = this;
 			tradeScreen.DataContext = _gameSession;
 			tradeScreen.ShowDialog();
+		}
+
+		private void OnClick_Craft(object sender, RoutedEventArgs e)
+		{
+			Recipe recipe = ((FrameworkElement)sender).DataContext as Recipe;
+			_gameSession.CraftItemUsing(recipe);
 		}
 
 		//将信息显示在信息栏里

@@ -51,18 +51,6 @@ namespace BugVentureEngine.Models
 			Recipes = new ObservableCollection<Recipe>();
 		}
 
-		public bool HasAllTheseItems(List<ItemQuantity> items)
-		{
-			foreach (ItemQuantity item in items)
-			{
-				if (Inventory.Count(i => i.ItemTypeID == item.ItemID) < item.Quantity)
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-
 		public void AddExperience(int experiencePoints)
 		{
 			ExperiencePoints += experiencePoints;
