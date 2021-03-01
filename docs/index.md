@@ -55,6 +55,7 @@ Extend: [LivingEntity](#LivingEntity)
 | Experience Points | 经验值                               | int                                 |
 | Weapons           | 武器列表：自动找到物品栏里的所有武器 | List\<GameItem\>                    |
 | Quests            | 任务栏                               | ObservableCollection\<QuestStatus\> |
+| Recipes           | 已学习配方栏                         | ObservableCollection\<Recipe\>      |
 
 > ObservableCollection在属性变动时会自动通知UI
 
@@ -395,6 +396,21 @@ Extend: [BaseNotificationClass](#BaseNotificationClass)
 | Item     | 游戏物品  | GameItem |
 | Quantity | 物品数量  | int      |
 
+### Recipe
+
+合成配方
+
+#### 属性
+
+| 属性值      | 用途/详情 | 数据类型             |          |
+| ----------- | --------- | -------------------- | -------- |
+| ID          | 唯一ID    | int                  | get only |
+| Name        | 配方名    | string               | get only |
+| Ingredients | 所需材料  | List\<ItemQuantity\> | get only |
+| OutputItems | 输出材料  | List\<ItemQuantity\> | get only |
+
+
+
 ## BugVentureEngine.ViewModels
 
 MVVM - 用于View和Model之间的媒介（项目逻辑）
@@ -516,20 +532,6 @@ internal static World CreateWorld()
 
 物品工厂 - 生成游戏中的所有物品
 
-#### 属性
-
-| 属性值             | 用途/详情                                                    | 数据类型         |                         |
-| ------------------ | ------------------------------------------------------------ | ---------------- | ----------------------- |
-| _standardGameItems | 保存世界里所有的道具，以便可以达到“找到这个道具，然后返回这个道具”的效果 | List\<GameItem\> | private static readonly |
-
-#### 构造方法
-
-将武器、道具加入到游戏中
-
-```c#
-static ItemFactory()
-```
-
 #### 方法
 
 ##### CreateGameItem()
@@ -545,20 +547,6 @@ public static GameItem CreateGameItem(int itemTypeID)
 ### QuestFactory
 
 任务工厂 - 生成游戏中的所有任务
-
-#### 属性
-
-| 属性值  | 用途/详情                                                    | 数据类型      |                         |
-| ------- | ------------------------------------------------------------ | ------------- | ----------------------- |
-| _quests | 保存世界里所有的任务，以便可以达到“找到这个任务，然后返回这个任务”的效果 | List\<Quest\> | private static readonly |
-
-#### 构造方法
-
-将任务加入到游戏中
-
-```C#
-static QuestFactory()
-```
 
 #### 方法
 
@@ -594,12 +582,6 @@ private static void AddLootItem(Monster monster, int itemID, int percentage)
 
 创建商人对象
 
-#### 属性
-
-| 属性值   | 用途/详情    | 数据类型       |                         |
-| -------- | ------------ | -------------- | ----------------------- |
-| _traders | 保存所有商人 | List\<Trader\> | private static readonly |
-
 #### 方法
 
 ##### GetTraderByName(string name)
@@ -609,6 +591,16 @@ private static void AddLootItem(Monster monster, int itemID, int percentage)
 ##### AddTraderToList(Trader trader)
 
 将商人添加到商人列表里
+
+### RecipeFactory
+
+创建配方对象
+
+#### 方法
+
+##### RecipeByID(int id)
+
+通过ID获取配方
 
 ## BugVentureEngine.EventArgs
 
@@ -682,23 +674,27 @@ Execute
 
 ## 道具
 
-| 类型        | ID   | 名称         | 价格 | 最小攻击力 | 最大攻击力 | 回复效果 |
-| ----------- | ---- | ------------ | ---- | ---------- | ---------- | -------- |
-| Weapon      | 1001 | Pointy Stick | 1    | 1          | 2          |          |
-| Weapon      | 1002 | Rusty Sword  | 5    | 1          | 3          |          |
-|             |      |              |      |            |            |          |
-| Weapon      | 1501 | Snake fangs  | 0    | 0          | 2          |          |
-| Weapon      | 1502 | Rat claws    | 0    | 0          | 2          |          |
-| Weapon      | 1503 | Spider fangs | 0    | 0          | 4          |          |
-|             |      |              |      |            |            |          |
-| HealingItem | 2001 | GranolaBar   | 5    |            |            | 2        |
-|             |      |              |      |            |            |          |
-| GameItem    | 9001 | Snake fang   | 1    |            |            |          |
-| GameItem    | 9002 | Snakeskin    | 2    |            |            |          |
-| GameItem    | 9003 | Rat tail     | 1    |            |            |          |
-| GameItem    | 9004 | Rat fur      | 2    |            |            |          |
-| GameItem    | 9005 | Spider fang  | 1    |            |            |          |
-| GameItem    | 9006 | Spider silk  | 2    |            |            |          |
+| 类型              | ID   | 名称         | 价格 | 最小攻击力 | 最大攻击力 | 回复效果 | 合成配方 |
+| ----------------- | ---- | ------------ | ---- | ---------- | ---------- | -------- | -------- |
+| Weapon            | 1001 | Pointy Stick | 1    | 1          | 2          |          |          |
+| Weapon            | 1002 | Rusty Sword  | 5    | 1          | 3          |          |          |
+|                   |      |              |      |            |            |          |          |
+| Weapon            | 1501 | Snake fangs  | 0    | 0          | 2          |          |          |
+| Weapon            | 1502 | Rat claws    | 0    | 0          | 2          |          |          |
+| Weapon            | 1503 | Spider fangs | 0    | 0          | 4          |          |          |
+|                   |      |              |      |            |            |          |          |
+| HealingItem       | 2001 | GranolaBar   | 5    |            |            | 2        |          |
+|                   |      |              |      |            |            |          |          |
+| MiscellaneousItem | 3001 | Oats         | 1    |            |            |          |          |
+| MiscellaneousItem | 3002 | Honey        | 2    |            |            |          |          |
+| MiscellaneousItem | 3003 | Raisins      | 2    |            |            |          |          |
+|                   |      |              |      |            |            |          |          |
+| MiscellaneousItem | 9001 | Snake fang   | 1    |            |            |          |          |
+| MiscellaneousItem | 9002 | Snakeskin    | 2    |            |            |          |          |
+| MiscellaneousItem | 9003 | Rat tail     | 1    |            |            |          |          |
+| MiscellaneousItem | 9004 | Rat fur      | 2    |            |            |          |          |
+| MiscellaneousItem | 9005 | Spider fang  | 1    |            |            |          |          |
+| MiscellaneousItem | 9006 | Spider silk  | 2    |            |            |          |          |
 
 ## 任务
 
@@ -721,4 +717,10 @@ Execute
 | Susan              |      | Trading Shop    |
 | Farmer Ted         |      | Farmer's House  |
 | Pete the Herbalist |      | Herbalist's Hut |
+
+## 配方
+
+| ID   | 配方名称    | 合成材料                             | 输出结果 |
+| ---- | ----------- | ------------------------------------ | -------- |
+| 1    | Granola Bar | 3001 * 1<br />3002 * 2<br />3003 * 3 | 2001 * 1 |
 

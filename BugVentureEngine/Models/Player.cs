@@ -33,7 +33,9 @@ namespace BugVentureEngine.Models
 			}
 		}
 
-		public ObservableCollection<QuestStatus> Quests { get; set; }
+		public ObservableCollection<QuestStatus> Quests { get; }
+
+		public ObservableCollection<Recipe> Recipes { get; }
 
 		#endregion
 
@@ -46,6 +48,7 @@ namespace BugVentureEngine.Models
 			ExperiencePoints = experiencePoints;
 
 			Quests = new ObservableCollection<QuestStatus>();
+			Recipes = new ObservableCollection<Recipe>();
 		}
 
 		public bool HasAllTheseItems(List<ItemQuantity> items)
@@ -63,6 +66,14 @@ namespace BugVentureEngine.Models
 		public void AddExperience(int experiencePoints)
 		{
 			ExperiencePoints += experiencePoints;
+		}
+
+		public void LearnRecipe(Recipe recipe)
+		{
+			if (!Recipes.Any(r => r.ID == recipe.ID))
+			{
+				Recipes.Add(recipe);
+			}
 		}
 
 		private void SetLevelAndMaximumHitPoints()
