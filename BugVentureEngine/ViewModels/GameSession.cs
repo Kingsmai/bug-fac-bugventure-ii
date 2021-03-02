@@ -243,6 +243,11 @@ namespace BugVentureEngine.ViewModels
 
 		public void AttackCurrentMonster()
 		{
+			if (CurrentMonster == null)
+			{
+				return;
+			}
+
 			if (CurrentPlayer.CurrentWeapon == null)
 			{
 				RaiseMessage("You must select a weapon, to attack");
@@ -264,7 +269,10 @@ namespace BugVentureEngine.ViewModels
 
 		public void UseCurrentConsumable()
 		{
-			_currentPlayer.UseCurrentConsumable();
+			if (CurrentPlayer.CurrentConsumable != null)
+			{
+				_currentPlayer.UseCurrentConsumable();
+			}
 		}
 
 		public void CraftItemUsing(Recipe recipe)
