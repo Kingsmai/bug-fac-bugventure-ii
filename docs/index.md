@@ -654,6 +654,12 @@ Extends: [BaseAction](#BaseAction), [IAction](#IAction)
 
 Execute
 
+## BugVentureEngine.Shared
+
+### ExtensionMethod
+
+扩展方法，比如XmlNode自定义扩展方法`AttributeAsInt(string attributeName)`和`AttributeAsString(string attributeName)`
+
 # 所有方法
 
 ## AddItemToInventory(GameItem item)
