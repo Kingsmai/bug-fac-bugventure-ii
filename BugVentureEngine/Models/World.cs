@@ -9,22 +9,9 @@ namespace BugVentureEngine.Models
 		/// <summary>
 		/// 在世界里面增加新的地点
 		/// </summary>
-		/// <param name="xCoordinates">纵坐标</param>
-		/// <param name="yCoordinates">横坐标</param>
-		/// <param name="name">地点名称</param>
-		/// <param name="description">地点介绍</param>
-		/// <param name="imageName">地点图标路径</param>
-		internal void AddLocation(int xCoordinates, int yCoordinates, string name, string description, string imageName)
+		internal void AddLocation(Location location)
 		{
-			Location loc = new Location();
-			loc.XCoordinate = xCoordinates;
-			loc.YCoordinate = yCoordinates;
-			loc.Name = name;
-			loc.Description = description;
-			// 图片路径：/assemblyName;component/path/to/image.png; 
-			loc.ImageName = $"/BugVentureEngine;component/Images/Locations/{imageName}";
-
-			_locations.Add(loc);
+			_locations.Add(location);
 		}
 
 		public Location LocationAt(int xCoordinates, int yCoordinates)

@@ -15,6 +15,15 @@ namespace BugVentureEngine.Models
 		public List<MonsterEncounter> MonstersHere { get; set; } = new List<MonsterEncounter>();
 		public Trader TraderHere { get; set; }
 
+		public Location(int xCoordinate, int yCoordinate, string name, string description, string imageName)
+		{
+			XCoordinate = xCoordinate;
+			YCoordinate = yCoordinate;
+			Name = name;
+			Description = description;
+			ImageName = imageName;
+		}
+
 		public void AddMonster(int monsterID, int chanceOfEncountering)
 		{
 			if (MonstersHere.Exists(m => m.MonsterID == monsterID))
