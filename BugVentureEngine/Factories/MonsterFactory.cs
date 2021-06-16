@@ -1,10 +1,9 @@
 ﻿using BugVentureEngine.Models;
+using BugVentureEngine.Shared;
 using System.Collections.Generic;
 using System.IO;
-using System.Xml;
-using BugVentureEngine.Shared;
 using System.Linq;
-using System;
+using System.Xml;
 
 namespace BugVentureEngine.Factories
 {
